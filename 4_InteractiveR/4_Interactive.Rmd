@@ -13,6 +13,7 @@ output:
       - rladies-fonts
       - fonts_mtheme.css
       - cols.css
+      - sydney.css
     seal: false  
     nature:
       beforeInit: "cols_macro.js"
