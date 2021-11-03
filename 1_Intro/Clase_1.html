@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to Analytics of Finance</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="PhD. Diego F. Manotas-Duque   PhD. St. Orlando Joaqui-Barandica" />
+    <meta name="date" content="2021-01-01" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/rladies.css" rel="stylesheet" />
+    <link href="libs/remark-css/rladies-fonts.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
+    <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
+    <link rel="stylesheet" href="fonts_mtheme.css" type="text/css" />
+    <link rel="stylesheet" href="cols.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+class: inverse, left, bottom
+background-image: url("img/back2.jpg")
+background-size: cover
+
+
+# **Introduction to Analytics of Finance**
+----
+
+## **Universidad del Valle - Escuela Ingeniería Industrial**
+
+### PhD. Diego F. Manotas-Duque &lt;br/&gt; PhD. St. Orlando Joaqui-Barandica
+### 2021
+
+
+
+---
+name: hola
+class: inverse, middle, center
+background-color: #E31D1D
+
+&lt;img style="border-radius: 50%;" src="img/uv3.jpg"
+width="150px"
+/&gt;
+
+# Universidad del Valle
+
+--
+
+## Maestría en Análitica e Inteligencia de Negocios
+---
+
+
+
+
+.pull-left[
+
+&lt;br&gt;&lt;br&gt;
+
+.center[
+&lt;img style="border-radius: 50%;" src="img/avatar2.PNG"
+width="160px"
+/&gt;
+
+[PhD. Diego F. Manotas-Duque](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque) &lt;br&gt;
+Universidad del Valle
+]
+
+&lt;br&gt;
+
+.center[
+
+*PhD. in Engineering with emphasis in Electrical Engineering*
+
+*MSc. in Management - Finance Emphasis*
+
+*Finance Specialist*
+
+*Industrial Engineer*
+
+<i class="fas  fa-link fa-spin "></i> [Personal Webpage](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque)
+
+]
+
+]
+
+
+
+.pull-right[
+
+
+&lt;br&gt;&lt;br&gt;
+
+.center[
+&lt;img style="border-radius: 50%;" src="img/avatar.png"
+width="160px" href="https://www.joaquibarandica.com"
+/&gt;
+
+[PhD. Student. Orlando Joaqui-Barandica](https://www.joaquibarandica.com) &lt;br/&gt;
+Universidad del Valle
+]
+
+&lt;br&gt;
+
+
+.center[
+
+*PhD. Student in Engineering with emphasis in Engineering Industrial* 
+ 
+*MSc. Applied Economics*
+ 
+*BSc. Statistic*
+
+&lt;br&gt;
+
+<i class="fas  fa-link fa-spin "></i> [www.joaquibarandica.com](https://www.joaquibarandica.com)
+
+]
+
+
+]
+
+
+---
+
+class: center, middle
+
+&lt;img src="img/gifinc.jpg" width="50%"/&gt;
+
+### [https://gifinc.univalle.edu.co/](https://gifinc.univalle.edu.co/)
+
+---
+
+class: center, middle
+
+# Motivation...  🥳 
+
+
+---
+
+
+&lt;iframe width="1530" height="610" src="https://www.youtube.com/embed/z7-eYt3m6-M" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+
+---
+
+class: center, middle
+
+# So...
+
+---
+
+background-color: #000000
+
+&lt;video width="1530" height="610" controls&gt;
+    &lt;source src="img/wtf_quant.mp4"&gt; &lt;/video&gt;
+
+
+---
+
+
+# What is a QUANT? 
+
+
+.pull-left[
+
+**Quantitative analysis** is the use of mathematical and statistical methods in finance and investment management. Those working in the field are quantitative analysts **(quants)**. Quants tend to specialize in specific areas which may include derivative structuring or pricing, risk management, algorithmic trading and investment management. 
+
+
+The occupation is similar to those in industrial mathematics in other industries. The process usually consists of searching vast databases for patterns, such as correlations among liquid assets or price-movement patterns (trend following or mean reversion). 
+
+
+.footnote[
+Source <i class="fas  fa-link "></i> [Wikipedia: Quantitative analysis (finance)](https://en.wikipedia.org/w/index.php?title=Quantitative_analyst&amp;redirect=no)
+]
+
+]
+
+
+.pull-right[
+
+
+![](https://media.giphy.com/media/JtBZm3Getg3dqxK0zP/giphy.gif)
+
+]
+
+
+
+???
+
+
+El análisis cuantitativo es el uso de métodos matemáticos y estadísticos en la gestión financiera y de inversiones. Los que trabajan en el campo son analistas cuantitativos (cuantos). Los Quants tienden a especializarse en áreas específicas que pueden incluir estructuración o fijación de precios de derivados, gestión de riesgos, negociación algorítmica y gestión de inversiones.
+
+La ocupación es similar a la de las matemáticas industriales en otras industrias. El proceso generalmente consiste en buscar patrones en vastas bases de datos, como correlaciones entre activos líquidos o patrones de movimiento de precios (seguimiento de tendencia o reversión a la media).
+
+
+---
+
+# What is a QUANT? 
+
+.pull-left[
+
+&lt;br&gt;&lt;br&gt;
+
+
+![](https://media.giphy.com/media/oGq1LQMtF31Wo/giphy.gif)
+
+
+]
+
+
+.pull-right[
+
+Trading floors were once the preserve of adrenalin-fuelled dealers aggressively executing the orders of brokers who relied on research, experience and gut instinct to decide where best to invest.
+
+
+Long ago computers made dealers redundant, yet brokers and their ilk have remained the masters of the investment universe, free to buy and sell wherever they see fit.
+
+
+&gt; But the last bastion of the old order is now under threat.
+
+
+Investment decisions are no longer being made by financiers, but increasingly by PhD mathematicians and the immensely complex computer programs they devise.
+
+
+
+]
+
+
+???
+
+Los pisos de negociación fueron una vez el dominio exclusivo de los comerciantes llenos de adrenalina que ejecutaban agresivamente las órdenes de los corredores que dependían de la investigación, la experiencia y el instinto para decidir dónde era mejor invertir.
+
+Hace mucho tiempo, las computadoras hicieron que los comerciantes fueran superfluos, pero los corredores y los de su clase siguen siendo los dueños del universo de inversiones, libres de comprar y vender donde lo consideren oportuno.
+
+Pero el último bastión del antiguo orden ahora está amenazado.
+
+Las decisiones de inversión ya no las toman los financieros, sino cada vez más los matemáticos doctores y los programas informáticos inmensamente complejos que diseñan.
+
+
+---
+
+
+class: center, middle
+
+# But the last bastion of the old order is now under threat.
+
+&lt;img src="https://media.giphy.com/media/FHuZdKSmwSIGk/giphy.gif" width="80%"/&gt;
+
+
+???
+
+Pero el último bastión del antiguo orden ahora está amenazado.
+
+
+---
+
+class: center, bottom
+
+.pull-left[
+
+
+&lt;img src="https://media.giphy.com/media/M8x6Lk2QFmTu0/giphy.gif" width="70%"/&gt;
+
+
+
+]
+
+
+.pull-right[
+
+&lt;br&gt;
+
+&lt;img src="https://media.giphy.com/media/UqxVRm1IaaIGk/giphy.gif" width="90%"/&gt;
+
+
+]
+
+----
+# Fundamental research and intuition are being usurped by algorithmic formulae. ⚰️⚰️⚰️ ... 
+
+## Quant trading is taking over the world's financial capitals.
+
+
+
+???
+
+
+La investigación fundamental y la intuición están siendo usurpadas por fórmulas algorítmicas. 
+
+
+El comercio cuantitativo se está apoderando de las capitales financieras del mundo.
+
+
+---
+
+
+# What is a QUANT? 
+
+.left-column[
+
+### New paradigm
+
+
+&lt;br&gt;
+
+
+Mathematicians have long played a vital role in risk management at financial institutions, but their skill set is increasingly being used to make money, not just to stop losing it.
+
+]
+
+
+.right-column[
+
+* <span>&lt;i class="fas  fa-angle-double-right fa-2x faa-passing animated "&gt;&lt;/i&gt;</span> Firms are now employing gifted academic statisticians to track patterns or trends in trading behaviour and create formulae to predict future market movements.
+
+
+* <span>&lt;i class="fas  fa-angle-double-right fa-2x faa-passing animated "&gt;&lt;/i&gt;</span> These formulae are then fed into powerful computers that buy and sell automatically according to triggers generated by the algorithms.
+
+
+* <span>&lt;i class="fas  fa-angle-double-right fa-2x faa-passing animated "&gt;&lt;/i&gt;</span> Some are fully automated, but most require human oversight to ensure nothing goes too drastically wrong.
+
+
+* <span>&lt;i class="fas  fa-angle-double-right fa-2x faa-passing animated "&gt;&lt;/i&gt;</span> These programs are immensely powerful, constantly monitoring market movements, trading patterns and news flows and are capable of changing strategies within fractions of a second.
+
+* <span>&lt;i class="fas  fa-angle-double-right fa-2x faa-passing animated "&gt;&lt;/i&gt;</span> The most powerful even have artificial intelligence that can adapt strategies of their own accord.
+
+]
+
+
+
+???
+
+
+Nuevo paradigma
+
+
+Los matemáticos han desempeñado durante mucho tiempo un papel vital en la gestión de riesgos en las instituciones financieras, pero su conjunto de habilidades se utiliza cada vez más para ganar dinero, no solo para dejar de perderlo.
+
+
+
+
+
+Las empresas ahora están empleando estadísticos académicos talentosos para rastrear patrones o tendencias en el comportamiento comercial y crear fórmulas para predecir los movimientos futuros del mercado.
+
+  Luego, estas fórmulas se introducen en potentes computadoras que compran y venden automáticamente de acuerdo con los desencadenantes generados por los algoritmos.
+
+  Algunos están completamente automatizados, pero la mayoría requiere supervisión humana para garantizar que nada salga demasiado mal.
+
+  Estos programas son inmensamente poderosos, monitorean constantemente los movimientos del mercado, los patrones comerciales y los flujos de noticias, y son capaces de cambiar de estrategia en fracciones de segundo.
+
+  Los más poderosos incluso tienen inteligencia artificial que puede adaptar estrategias por sí mismos.
+
+
+---
+
+
+background-image: url(img/back3.jpg)
+background-size: cover
+
+class: inverse, center, middle
+
+# These so-called quantitative trading programs underpin all quickfire trades - known as high-frequency trading (HFT) - in which stocks can be held for just a matter of seconds.
+
+
+
+???
+
+Estos llamados programas de comercio cuantitativo sustentan todas las operaciones rápidas, conocidas como operaciones de alta frecuencia (HFT), en las que las acciones se pueden mantener durante unos segundos.
+
+---
+
+# Everything is clear?
+
+.center[
+.font140[
+
+&lt;br&gt;
+
+Quant trading helped to reduce dealing costs and improve liquidity, and did not harm overall market efficiency.
+
+In fact, it found that HFT and quant trading have **"generally improved market quality".**
+]
+]
+
+----
+
+
+.left-column[
+
+# But.. Imagine
+
+]
+
+.right-column[
+
+.font140[A] share falls in value, triggering a sale on one quant program, pushing the share price even lower. This in turn triggers a sale on another program, pushing the price lower still, and so on and so on.
+
+
+`The problem is exacerbated` by the fact that many programs run on the same formulae, and so are piling in and out of the same stocks.
+
+
+Source <i class="fas  fa-link "></i> [The Future of Computer Trading in Financial Markets](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/289058/11-1276-the-future-of-computer-trading-in-financial-markets.pdf)
+
+
+
+
+]
+
+
+???
+
+¿Todo está claro?
+
+
+El comercio cuantitativo ayudó a reducir los costos de negociación y mejorar la liquidez, y no perjudicó la eficiencia general del mercado.
+
+De hecho, constató que el comercio HFT y cuantitativo "ha mejorado en general la calidad del mercado".
+
+
+
+
+Pero ... imagina
+Una acción pierde valor, lo que desencadena una venta en un programa cuantitativo, lo que hace que el precio de la acción baje aún más. Esto, a su vez, desencadena una venta en otro programa, lo que hace que el precio baje aún más, y así sucesivamente.
+
+El problema se agrava por el hecho de que muchos programas se ejecutan con las mismas fórmulas y, por lo tanto, se acumulan dentro y fuera de las mismas existencias.
+
+Fuente El futuro del comercio informático en los mercados financieros
+
+
+---
+
+background-image: url(img/back4.jpg)
+background-size: cover
+
+
+# Flash Crash
+
+
+.pull-left[
+
+On May 6, 2010, U.S. stock markets opened and the Dow was down, and trended that way for most of the day on worries about the debt crisis in Greece. 
+
+
+**At 2:42 p.m.**, with the Dow down more than 300 points for the day, the equity market began to fall rapidly, dropping an additional 600 points in 5 minutes for a loss of nearly 1,000 points for the day by **2:47 p.m.** Twenty minutes later, by **3:07 p.m.**, the market had regained most of the 600-point drop.
+
+----
+
+&gt; ### Others point to far more damaging consequences, citing quant trading as a key contributor to the massive sell-off in stocks in 2008 that saw the US market almost halve in value.
+
+]
+
+.pull-right[
+
+
+]
+
+
+
+???
+
+Flash Crash
+El 6 de mayo de 2010, los mercados de valores estadounidenses abrieron y el Dow Jones bajó, y mostró esa tendencia durante la mayor parte del día debido a las preocupaciones sobre la crisis de la deuda en Grecia.
+
+A las 2:42 p.m., con el Dow abajo más de 300 puntos en el día, el mercado de valores comenzó a caer rápidamente, cayendo 600 puntos adicionales en 5 minutos para una pérdida de casi 1,000 puntos para el día a las 2:47 p.m. Veinte minutos más tarde, a las 3:07 p.m., el mercado había recuperado la mayor parte de la caída de 600 puntos.
+
+
+Otros apuntan a consecuencias mucho más dañinas, citando el comercio cuantitativo como un contribuyente clave a la venta masiva de acciones en 2008 que vio al mercado estadounidense casi reducirse a la mitad en valor.
+
+
+
+---
+
+
+class: inverse, right, bottom
+background-image: url(img/back5.jpg)
+background-size: cover
+
+
+# Confidence crisis
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+.left[
+***_The problem is more fundamental. Mathematicians, they say, do not understand markets. They deal in absolutes, not the irrational human b   ehaviour that drives so many investment decisions._**
+
+**_Paul Wilmott, a prominent lecturer in quantitative finance, has questioned whether they are "capable of thinking beyond maths and formulas"._**
+]
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+
+## "Do they appreciate the human side of finance, the herding behaviour of people, the unintended consequences?"
+
+
+???
+
+Crisis de confianza
+
+
+* El problema es más fundamental. Los matemáticos, dicen, no comprenden los mercados. Tratan en términos absolutos, no el comportamiento humano irracional que impulsa tantas decisiones de inversión.
+
+Paul Wilmott, un destacado conferenciante en finanzas cuantitativas, ha cuestionado si son "capaces de pensar más allá de las matemáticas y las fórmulas".
+
+
+"¿Aprecian el lado humano de las finanzas, el comportamiento gregario de la gente, las consecuencias no deseadas?"
+
+---
+
+
+# Skills
+
+
+![:col_header FINANCE &lt;br&gt;
+  &lt;i class="fa fa-hand-holding-usd" aria-hidden="true" style="font-size:55px;"&gt;&lt;/i&gt;,
+  MATHEMATICS &lt;br&gt; 
+  &lt;i class="fa fa-percentage" aria-hidden="true" style="font-size:55px;"&gt;&lt;/i&gt;,
+ COMPUTER PROGRAMMING &lt;br&gt; 
+ &lt;i class="fa fa-laptop" aria-hidden="true" style="font-size:55px;"&gt;&lt;/i&gt;
+              ]
+ 
+![:col_row , , ]
+
+![:col_row , , ]
+ 
+              
+![:col_list 
+Systems for accessing market data&amp;#44; like the **Bloomberg** data terminal&amp;#44; or **Refinitiv**&amp;#44; having the necessary technical and quantitative analysis tools available that fit into their stream of trading (like Indicators&amp;#44; charts&amp;#44; etc.), 
+Portfolio Returns, 
+Develop and build the working algorithm/program/system based on the trading strategy]
+
+
+![:col_row , , ]
+
+![:col_row , , ]
+
+![:col_list 
+Historical and/or real-time data availability&amp;#44; to backtest their identified strategies, 
+CAPM, 
+Data mining&amp;#44; research&amp;#44; and analytical abilities
+]
+
+
+![:col_row , , ]
+
+![:col_row , , ]
+
+![:col_list 
+Risk-taking abilities and trader’s temperament, 
+Sharpe ratio, 
+C++ and Java are the main programming languages used in trading systems. Quants often need to code in C++&amp;#44; in addition to knowing how to use tools like R&amp;#44; MatLab&amp;#44; Stata&amp;#44; Python
+]
+
+
+
+![:col_row , , ]
+
+![:col_row , , ]
+
+![:col_list 
+ and so on, 
+ and so on, 
+ and so on
+]
+
+
+---
+
+
+
+class: center, middle
+
+# Reproducible Finance...  🤑 
+
+
+---
+
+
+.pull-left[
+
+&lt;br&gt;&lt;br&gt;
+
+.center[
+### Reproducible Finance is a philosophy about how to do quantitative, data science driven financial analysis. The root of this philosophy is that the data and code that lead to a decision or conclusion should be able to be understood and then replicated in an efficient way. 
+
+###The code itself should tell a clear story when read by a human, just as it tells a clear story when read by a computer.
+]
+]
+
+.pull-right[
+
+
+&lt;br&gt;&lt;br&gt;
+
+----
+
+.center[
+`This Course applies the reproducible philosophy to R code for portfolio management. That reproducible philosophy will manifest itself in how we tackle problems throughout this course. More specifically, instead of looking for the most clever code or smartest algorithm, this book prioritizes readable, reusable, reproducible work flows using a variety of R packages and functions.`
+]
+
+----
+
+&lt;br&gt;
+
+![](https://bookdown.org/oscar_teach/estadistica_aplicada_con_r/r-rstudio.png)
+
+
+]
+
+
+???
+
+Reproducible Finance es una filosofía sobre cómo realizar análisis financieros cuantitativos basados en la ciencia de datos. La raíz de esta filosofía es que los datos y el código que conducen a una decisión o conclusión deben poder ser entendidos y luego replicados de manera eficiente.
+
+El código en sí debe contar una historia clara cuando lo lee un humano, del mismo modo que cuenta una historia clara cuando lo lee una computadora.
+
+
+Este curso aplica la filosofía reproducible al código R para la gestión de carteras. Esa filosofía reproducible se manifestará en cómo abordamos los problemas a lo largo de este curso. Más específicamente, en lugar de buscar el código más inteligente o el algoritmo más inteligente, este libro prioriza los flujos de trabajo legibles, reutilizables y reproducibles utilizando una variedad de paquetes y funciones de R.
+
+
+---
+
+background-image: url(img/back6.jpg)
+background-size: cover
+
+
+.pull-left[
+
+
+.center[
+### This course focuses on three universes or paradigms for portfolio analysis with R. 
+
+### There are probably more than three fantastic paradigms but these are the three I encounter most frequently in industry. 
+]
+
+&lt;br&gt;&lt;br&gt;
+
+
+###  <i class="fas  fa-spinner fa-spin "></i> *xts*
+
+###  <i class="fas  fa-spinner fa-spin "></i> *tidyverse*
+
+###  <i class="fas  fa-spinner fa-spin "></i> *tidyquant*
+
+
+
+]
+
+
+---
+
+
+background-image: url(img/back7.jpg)
+background-size: cover
+
+
+
+---
+
+
+background-image: url(img/monalisa1.jpg)
+background-size: cover
+
+class: inverse, center, middle
+
+
+# Data visualization... 
+
+--
+
+## ... is where we translate numbers into shapes and colors, and it will get a lot of attention in this course.
+
+
+
+---
+
+class: center, middle
+
+.pull-left[
+
+&lt;img src="img/einstein.jpg" width="50%"/&gt;
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/monalisa2.jpg" width="40%"/&gt;
+
+]
+
+----
+
+# Science + Art
+
+--
+
+### This human communication is how our quiet quantitative toiling becomes a transcendent revenue generator or producing strategy, Even if we plan to implement algorithms and never share our work outside of our own firm, the ability to explain and communicate is hugely important.
+
+
+.font100[
+<i class="fas  fa-link "></i> [Dashboard VaR - Value at Risk](https://juniorjb5.shinyapps.io/Value_at_Risk/)
+]
+
+
+---
+
+
+class: inverse, center, middle
+
+# Course' Content...  🧾
+
+
+&lt;img src="https://media.giphy.com/media/wC4P0yFYqjXhK/giphy.gif" width="80%"/&gt;
+
+
+---
+
+
+background-color: #F5B041
+
+# Course' Content...  
+
+
+.pull-left[
+
+## 1️⃣ Data Visualization in R
+
+   - **R Markdown**
+   - **FlexDashboard**
+   
+
+## 2️⃣ Time Series
+
+   - **Forecast Basic Method**
+   
+
+## 3️⃣ Returns
+
+   - **Asset Prices to Returns**
+   - **Building to Portfolio**
+
+
+
+]
+
+
+.pull-right[
+
+
+## 4️⃣ Risk
+
+   - **Standard Deviation**
+   - **Skewness**
+   - **Kurtosis**
+
+
+
+## 5️⃣ Portfolio Theory
+
+   - **Sharpe Ratio**
+   - **CAPM**
+   - **Fama French Factor Model**
+
+
+
+
+]
+
+
+
+
+---
+
+
+class: center, middle
+
+# Motivated? 😎
+----
+
+--
+
+## Opinions?... 🗣 Expectations? 💬
+
+
+
+---
+
+class: inverse, center, middle
+background-color: #00081d
+
+
+
+
+.pull-left[
+
+.center[
+&lt;br&gt;&lt;br&gt;
+
+# Thanks!!!
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+
+
+### Questions?
+]
+
+
+]
+
+
+.pull-right[
+
+
+.center[
+&lt;img style="border-radius: 50%;" src="img/avatar2.PNG"
+width="100px"
+/&gt;
+
+<span>&lt;i class="fas  fa-envelope faa-passing animated "&gt;&lt;/i&gt;</span> diego.manotas@correounivalle.edu.co
+
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+
+.center[
+&lt;img style="border-radius: 50%;" src="img/avatar.png"
+width="100px" href="https://www.joaquibarandica.com"
+/&gt;
+
+<span>&lt;i class="fas  fa-envelope faa-passing animated "&gt;&lt;/i&gt;</span> orlando.joaqui@correounivalle.edu.co 
+]
+
+
+
+]
+
+
+]
+
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+----
+
+*The images used to set the presentation are from [pixabay](https://pixabay.com/).*
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="cols_macro.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
