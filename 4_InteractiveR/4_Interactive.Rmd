@@ -176,9 +176,12 @@ class: left, middle, inverse
 
 ### `r icon("braille")` [Interactive Graphs](#Interactive)
 
+### `r icon("coffee")` [esquisser()](#Esquisser)
+
 ]
 
 .pull-right[
+
 
 
 ]
@@ -2179,7 +2182,48 @@ animate(p1)
 ]
 
 
+---
 
+
+name: Esquisser
+class: inverse, center, middle
+
+# `r icon("coffee")`
+# Esquisser
+----
+
+.right[
+.bottom[
+####  [`r icon("bell")`](#menu)
+]
+]
+
+
+
+---
+
+# `r icon("coffee")` esquisser()
+
+
+.left-column[
+
+`library(esquisse)`
+
+`data(iris)`
+
+`esquisser()`
+
+
+]
+
+
+.right-column[
+
+.center[
+<img src="img/esquisser.gif" width="70%"/>
+]
+
+]
 ---
 
 
