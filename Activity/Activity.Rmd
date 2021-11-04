@@ -238,8 +238,6 @@ Para relacionar la rentabilidad de una entidad con sus activos, la razón más u
 
 ---
 
-
-name: one
 class: inverse
 
 
@@ -262,7 +260,7 @@ class: inverse
 * Company Name
 * Country of Exchange
 * TRBC Industry Group Name
-* Return on Assets (Últimos 80 trimestres)
+* "Return on Assets - Actual" (Últimos 80 trimestres)
 
 
 2️⃣ Limpie la base en Excel (Recomendado) de posibles celdas combinadas, encabezados, etc.

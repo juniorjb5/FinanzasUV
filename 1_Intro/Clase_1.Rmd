@@ -617,7 +617,7 @@ class: center, middle
 ----
 
 .center[
-`This Course applies the reproducible philosophy to R code for portfolio management. That reproducible philosophy will manifest itself in how we tackle problems throughout this course. More specifically, instead of looking for the most clever code or smartest algorithm, this book prioritizes readable, reusable, reproducible work flows using a variety of R packages and functions.`
+`This Course applies the reproducible philosophy to R code for portfolio management. That reproducible philosophy will manifest itself in how we tackle problems throughout this course. More specifically, instead of looking for the most clever code or smartest algorithm, this course prioritizes readable, reusable, reproducible work flows using a variety of R packages and functions.`
 ]
 
 ----
