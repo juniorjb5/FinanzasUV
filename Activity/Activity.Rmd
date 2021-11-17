@@ -173,6 +173,8 @@ class: left, middle, inverse
 .pull-left[
 ### `r icon("chevron-circle-right")` [Activity 1.](#one)
 
+### `r icon("chevron-circle-right")` [Activity 2.](#two)
+
 ]
 
 
@@ -303,6 +305,35 @@ Intente generar lo anterior en una función que le permita seleccionar el país,
 
 
 ---
+
+
+
+
+
+name: two
+class: center
+
+
+# Actividad 2.
+----
+
+Realicemos el siguiente tablero dinámico
+
+
+
+```{r out.width = '80%'}
+# url
+#knitr::include_graphics("http://bit.ly/arm-greens") 
+# local
+knitr::include_graphics("img/Act_2.jpg")
+```
+
+
+
+
+---
+
+
 
 
 
