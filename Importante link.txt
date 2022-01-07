@@ -1,0 +1,1 @@
+https://bookdown.org/compfinezbook/introcompfinr/ReturnCalculationsR.html#calculating-returns

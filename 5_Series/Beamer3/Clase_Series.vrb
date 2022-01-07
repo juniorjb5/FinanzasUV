@@ -1,0 +1,22 @@
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+
+\small Los residuos muestran que este modelo ha capturado bien la tendencia, aunque queda algo de heterocedasticidad. El amplio intervalo de predicción en los pronósticos refleja la volatilidad observada en los tiempos ganadores históricos.
+
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+marathon %>%
+  splinef(lambda=0) %>%
+  checkresiduals()
+\end{lstlisting}
+
+\pause
+
+\begin{center}
+\includegraphics[width=0.60\textwidth]{resSpline.JPG}
+\end{center}
+
+
+

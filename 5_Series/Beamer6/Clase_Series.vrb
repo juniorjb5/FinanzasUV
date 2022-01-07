@@ -1,0 +1,21 @@
+\frametitle{Ejemplo}
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+autoplot(fit)
+\end{lstlisting}
+
+\pause
+
+
+\begin{figure}
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Imagen20.JPG}
+\end{center}
+\end{figure}
+
+
+\small Los tres puntos rojos en la gráfica de la izquierda corresponden a las raíces de los polinomios $\phi(B)$, mientras que el punto rojo en la gráfica de la derecha corresponde a la raíz de $\theta(B)$. Todos están dentro del círculo unitario, como es de esperar, porque R asegura que el modelo ajustado sea tanto estacionario como invertible.
+
+

@@ -1,0 +1,4 @@
+\babel@toc {spanish}{}
+\beamer@sectionintoc {1}{Métodos simples}{3}{0}{1}
+\beamer@sectionintoc {2}{Transformaciones}{13}{0}{2}
+\beamer@sectionintoc {3}{Diagnóstico residual}{33}{0}{3}

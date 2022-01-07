@@ -1,0 +1,19 @@
+\frametitle{Importar datos en R}
+
+Existe un paquete clasificado como ``paquete recomendado'' que permite una comunicación fluida entre programas para el análisis de datos; \highlighton{foreign()}.\\
+
+\vspace{4mm}
+El paquete foreign incorpora varias funciones para la lectura de datos provenientes de SPSS (.sav formato), SAS, Epi-Infor (.rec), Stata (.dta), Minitab ()
+
+\vspace{4mm}
+
+A veces los archivos provenientes de Stata tienen problemas por la versión del mismo. Recomiendo diferentes paquetes como
+
+\begin{itemize}
+\item read.dta13() de la librería {readstata13}
+\item read\_dta() de la librería {haven}
+\item read.spss() de la librería {foreign} para archivos de SPSS
+\end{itemize}
+
+
+

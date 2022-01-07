@@ -1,0 +1,5 @@
+\babel@toc {spanish}{}
+\beamer@sectionintoc {1}{Introducción}{3}{0}{1}
+\beamer@sectionintoc {2}{Gráficos de series de tiempo}{23}{0}{2}
+\beamer@sectionintoc {3}{Autocorrelación - ACF}{70}{0}{3}
+\beamer@sectionintoc {4}{Ruido Blanco}{83}{0}{4}

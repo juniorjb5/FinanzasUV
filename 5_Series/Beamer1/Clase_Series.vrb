@@ -1,0 +1,23 @@
+\frametitle{Ruido Blanco}
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+ggAcf(y)
+\end{lstlisting}
+
+\pause
+\begin{figure}
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Imagen33.JPG}
+\end{center}
+\end{figure}
+
+\begin{itemize}
+\item Se espera que cada autocorrelación sea cercana a cero.
+\item No serán exactamente iguales a cero ya que hay alguna variación aleatoria.
+\item Esperamos que el 95\% de los picos en el ACF se encuentren dentro de los límites para la longitud de la serie de tiempo.
+\end{itemize}
+
+
+

@@ -1,0 +1,17 @@
+\babel@toc {spanish}{}
+\beamer@sectionintoc {1}{Introducción}{3}{0}{1}
+\beamer@sectionintoc {2}{Elementos en R}{16}{0}{2}
+\beamer@sectionintoc {3}{Objetos en R}{71}{0}{3}
+\beamer@subsectionintoc {3}{1}{Vectores}{72}{0}{3}
+\beamer@subsectionintoc {3}{2}{Matrices}{106}{0}{3}
+\beamer@subsectionintoc {3}{3}{Data frames}{110}{0}{3}
+\beamer@subsectionintoc {3}{4}{Listas}{123}{0}{3}
+\beamer@subsectionintoc {3}{5}{Factores}{129}{0}{3}
+\beamer@sectionintoc {4}{Indexado}{134}{0}{4}
+\beamer@subsectionintoc {4}{1}{Condiciones lógicas}{135}{0}{4}
+\beamer@subsectionintoc {4}{2}{Vectores}{152}{0}{4}
+\beamer@subsectionintoc {4}{3}{Matrices}{163}{0}{4}
+\beamer@subsectionintoc {4}{4}{Listas}{179}{0}{4}
+\beamer@subsectionintoc {4}{5}{Data frame}{188}{0}{4}
+\beamer@sectionintoc {5}{Valores perdidos}{215}{0}{5}
+\beamer@sectionintoc {6}{Importar datos en R}{233}{0}{6}

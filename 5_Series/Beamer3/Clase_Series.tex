@@ -1,0 +1,1217 @@
+\documentclass[10pt]{beamer}
+
+\usetheme{Oxygen}
+\usepackage{thumbpdf}
+\usepackage{wasysym}
+\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{verbatim}
+\usepackage{tikzsymbols}
+
+\usepackage{ragged2e} % maneja la alineación del documento
+\usepackage[spanish]{babel} % Títulos en español
+\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc} % Caracteres con acentos.
+\usepackage{graphicx} % Soporte para gráficos
+\usepackage[none]{hyphenat} % indica a LaTeX que no debe hacer partición de palabras
+\usepackage[T1]{fontenc} % manejo de fuentes
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+%\usepackage{ra  gged2e}
+\usepackage [all]{xy}
+\usepackage{lmodern}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage{listings}
+
+\lstset{keywordstyle=\color{blue},
+ keywordstyle = [2]{\color{yellow}},
+ morekeywords = [2]{;,<,(,),\%>\%,-,=,+}, 
+commentstyle=\color{gray!90}, 
+basicstyle=\ttfamily\scriptsize, 
+columns=fullflexible, 
+breaklines=true,
+linewidth=\textwidth, 
+backgroundcolor=\color{gray!20}, 
+basewidth={0.5em,0.4em}, 
+literate={á}{{\'a}}1 {ñ}{{\~n}}1 {é}{{\'e}}1 {ó}{{\'o}}1 {º}{{\textordmasculine}}1, 
+showstringspaces=false}
+
+
+
+\setbeamersize{text margin left=9mm,text margin right=7mm} 
+
+
+\pdfinfo
+{
+  /Title       (Maestría en Analítica e Inteligencia de Negocios)
+  /Creator     (TeX)
+  /Author      (Orlando Joaqui-Barandica)
+}
+
+
+\title{Maestría en Analítica e Inteligencia de Negocios}
+\subtitle{Clase: Series de tiempo y pronóstico}
+\author{PhD. St. Orlando Joaqui-Barandica} 
+\institute{Universidad del Valle}
+\date{2021}
+
+\sloppy % Indica a LaTex que debe minimizar el corte de las palabras para pasar de una línea a otra
+\justifying % justificar todo el documento
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+\begin{frame}
+  \frametitle{Contenido}
+  \tableofcontents[hidesubsections]
+\end{frame}
+
+\AtBeginSection[]
+{
+  \frame<handout:0>
+  {
+    \frametitle{Contenido}
+    \tableofcontents[currentsection,hideallsubsections]
+  }
+}
+
+    
+\AtBeginSubsection[]
+{
+  \frame<handout:0>
+  {
+    \frametitle{Contenido}
+    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  }
+}
+
+\newcommand<>{\highlighton}[1]{%
+  \alt#2{\structure{#1}}{{#1}}
+}
+
+\newcommand{\icon}[1]{\pgfimage[height=1em]{#1}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Content starts here %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Predictores útiles}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Tendencia}
+
+\textbf{Tendencia lineal:}
+
+\vspace{4mm}
+Es común que los datos de series temporales tengan tendencia
+
+\begin{equation}
+x_t = t
+\end{equation}
+
+
+\begin{itemize}
+\item $t = 1, 2, ..., T$
+\item Fuerte suposición de que la tendencia continuará
+\end{itemize}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Variables Dummy}
+
+
+\begin{minipage}[c]{.45\textwidth}
+Si una variable categórica toma solo dos valores (por ejemplo, ``Sí'' o
+``No''), entonces se puede construir una variable numérica equivalente tomando el valor 1 en caso afirmativo y 0 en caso negativo.\\
+
+\vspace{4mm}
+
+Esto se llama una variable ficticia o \textbf{variable dummy}.
+\end{minipage}
+\begin{minipage}[c]{.45\textwidth}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{dummy2.JPG}
+\end{center}
+\end{minipage}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Variables Dummy}
+
+
+\begin{minipage}[c]{.35\textwidth}
+Si hay más de dos categorías, la variable puede codificarse
+utilizando varias variables ficticias (una menos que el número total de categorías).
+\end{minipage}
+\begin{minipage}[c]{.60\textwidth}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{dummy3.JPG}
+\end{center}
+\end{minipage}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Cuidado con las variables Dummy}
+
+\begin{itemize}
+\item ¡Usar un variable dummy para cada categoría da demasiadas variables dummy!
+
+\item La regresión será entonces singular e inestimable.
+
+\item Omita la constante u omita la dummy para una categoría.
+
+\item Los coeficientes de las dummies son relativos a la categoría omitida.
+
+\end{itemize}
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Uso de variables dummy}
+
+
+\textbf{Dummies estacionales}
+
+\begin{itemize}
+\item Para datos trimestrales: use 3 dummies
+\item Para datos mensuales: use 11 dummies
+\item Para datos diarios: use 6 dummies
+\item ¿Qué hacer con los datos semanales?
+
+\end{itemize}
+
+\vspace{4mm}
+
+\textbf{Outliers}
+
+\begin{itemize}
+\item Si hay un valor atípico, puede usar una variable ficticia (tomando el valor 1 para esa observación y 0 en otro lugar) para eliminar su efecto.
+\end{itemize}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Producción de cerveza}
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+beer2 <- window(ausbeer, start=1992)
+autoplot(beer2) + xlab("Year") + ylab("Megalitres")
+\end{lstlisting}
+
+\pause
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{5-regression_files/figure-beamer/unnamed-chunk-4-1.pdf}
+\end{center}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Producción de cerveza}
+
+
+Queremos pronosticar el valor de la futura producción de cerveza. Podemos modelar estos datos usando un modelo de regresión con una tendencia lineal y variables ficticias trimestrales, donde 1 si está en el trimestre y 0 de lo contrario.
+
+\vspace{3mm}
+
+\begin{block}{Modelo de regresión}
+$y_t = \beta_0 + \beta_1 t + \beta_2d_{2,t} + \beta_3 d_{3,t} + \beta_4 d_{4,t} + \varepsilon_t$
+\end{block}
+
+
+
+\begin{itemize}
+\item $d_{i,t} = 1$ si $t$ es trimestre $i$ y $0$ en otro caso
+\end{itemize}
+
+\vspace{4mm}
+\pause
+Tenga en cuenta que \textit{trend} y \textit{season} no son objetos en el espacio de trabajo de R; se crean automáticamente tslm()cuando se especifican de la siguiente manera.
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Producción de cerveza}
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+fit.beer <- tslm(beer ~ trend + season)
+summary(fit.beer)
+\end{lstlisting}
+
+\pause
+{\scriptsize
+\begin{verbatim}
+## 
+## Call:
+## tslm(formula = beer ~ trend + season)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -42.903  -7.599  -0.459   7.991  21.789 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 441.80044    3.73353 118.333  < 2e-16 ***
+## trend        -0.34027    0.06657  -5.111 2.73e-06 ***
+## season2     -34.65973    3.96832  -8.734 9.10e-13 ***
+## season3     -17.82164    4.02249  -4.430 3.45e-05 ***
+## season4      72.79641    4.02305  18.095  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 12.23 on 69 degrees of freedom
+## Multiple R-squared:  0.9243, Adjusted R-squared:  0.9199 
+## F-statistic: 210.7 on 4 and 69 DF,  p-value: < 2.2e-16
+\end{verbatim}
+}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]
+\frametitle{Producción de cerveza}
+
+\textbf{Interpretación}
+\vspace{4mm}
+
+\begin{enumerate}
+\item Hay una tendencia promedio a la baja de -0.34 megalitros por trimestre. 
+\vspace{3mm}
+\item En promedio, el segundo trimestre tiene una producción de 34.7 megalitros menor que el primer trimestre
+\vspace{3mm}
+\item El tercer trimestre tiene una producción de 17.8 megalitros menor que el primer trimestre
+\vspace{3mm}
+\item El cuarto trimestre tiene una producción de 72.8 megalitros mayor que el primer trimestre. 
+\end{enumerate}
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]
+\frametitle{Producción de cerveza}
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+autoplot(beer2, series="Data") +
+  autolayer(fitted(fit.beer), series="Fitted") +
+  xlab("Year") + ylab("Megalitres") +
+  ggtitle("Quarterly Beer Production")
+\end{lstlisting}
+
+\pause
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{5-regression_files/figure-beamer/unnamed-chunk-6-1.pdf}
+\end{center}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Producción de cerveza}
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+cbind(Data=beer2, Fitted=fitted(fit.beer)) %>%
+  as.data.frame() %>%
+  ggplot(aes(x = Data, y = Fitted,
+             colour = as.factor(cycle(beer2)))) +
+    geom_point() +
+    ylab("Fitted") + xlab("Actual values") +
+    ggtitle("Quarterly beer production") +
+    scale_colour_brewer(palette="Dark2", name="Quarter") +
+    geom_abline(intercept=0, slope=1)
+\end{lstlisting}
+
+\pause 
+\begin{center}
+\includegraphics[width=0.5\textwidth]{5-regression_files/figure-beamer/unnamed-chunk-7-1.pdf}
+\end{center}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Producción de cerveza}
+
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{5-regression_files/figure-beamer/unnamed-chunk-8-1.pdf}
+\end{center}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Variables de intervención}
+
+A menudo es necesario modelar intervenciones que pueden haber afectado la variable a pronosticar. Por ejemplo, la actividad de la competencia, el gasto publicitario, la acción industrial, etc., pueden tener un efecto.
+
+\vspace{4mm}
+
+\pause
+\textbf{Picos}
+
+\begin{itemize}
+\item Equivalente a una variable ficticia para manejar un valor atípico. Esta es una variable ficticia que toma el valor uno en el período de la intervención y cero en otro lugar.
+\end{itemize}
+
+\vspace{4mm}
+\pause
+
+\textbf{Pasos}
+\begin{itemize}
+\item Si una intervención causa un cambio de nivel. La variable toma el valor 0 antes de la intervención y 1 después.
+\end{itemize}
+
+\vspace{4mm}
+\pause
+
+\textbf{Cambio de pendiente}
+\begin{itemize}
+\item Aquí la intervención se maneja utilizando una tendencia lineal por partes. Las variables toman los valores 0 antes de la intervención y los valores \{1, 2, 3, ...\} después
+\end{itemize}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%\begin{frame}[fragile]
+%\frametitle{Series de Fourier}
+
+
+%\begin{itemize}
+%\item La estacionalidad periódica se puede manejar usando pares de términos de Fourier:
+
+%\begin{equation}
+%s_{k}(t) = \sin\left(\frac{2\pi k t}{m}\right)\qquad c_{k}(t) = \cos\left(\frac{2\pi k t}{m}\right)
+%\end{equation}
+
+%\begin{equation}
+%y_t = a + bt + \sum_{k=1}^K \left[\alpha_k s_k(t) + \beta_k c_k(t)\right] + \varepsilon_t
+%\end{equation}
+
+
+%\end{itemize}
+
+%\vspace{4mm}
+
+
+%\begin{itemize}
+%\item Cada función periódica puede ser aproximada por sumas de $Sin$ y $Cos$ para términos suficientemente grandes $K$.
+
+%\item $K$ especifica el número de términos de $Sin$ o $Cos$ a incluir. El número máximo de $K$ es $m/2$ dónde $m$ es el periodo estacional.
+
+%\item Es llamada también regresión armónica
+%\end{itemize}
+
+%\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%\begin{frame}[fragile]
+%\frametitle{Producción de cerveza}
+
+
+%\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+%\begin{lstlisting}
+%fourier.beer <- tslm(beer ~ trend + fourier(beer, K=2))
+%summary(fourier.beer)
+%\end{lstlisting}
+
+%\pause
+%{\scriptsize
+%\begin{verbatim}
+%## 
+%## Call:
+%## tslm(formula = beer ~ trend + fourier(beer, K = 2))
+%## 
+%## Residuals:
+%##     Min      1Q  Median      3Q     Max 
+%## -42.903  -7.599  -0.459   7.991  21.789 
+%## 
+%## Coefficients:
+%##                           Estimate Std. Error t value Pr(>|t|)    
+%## (Intercept)              446.87920    2.87321 155.533  < 2e-16 ***
+%## trend                     -0.34027    0.06657  -5.111 2.73e-06 ***
+%## fourier(beer, K = 2)S1-4   8.91082    2.01125   4.430 3.45e-05 ***
+%## fourier(beer, K = 2)C1-4  53.72807    2.01125  26.714  < 2e-16 ***
+%## fourier(beer, K = 2)C2-4  13.98958    1.42256   9.834 9.26e-15 ***
+%## ---
+%## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+%## 
+%## Residual standard error: 12.23 on 69 degrees of freedom
+%## Multiple R-squared:  0.9243, Adjusted R-squared:  0.9199 
+%## F-statistic: 210.7 on 4 and 69 DF,  p-value: < 2.2e-16
+%\end{verbatim}
+%}
+
+%\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section{Pronósticos}
+
+
+\begin{frame}[fragile]
+\frametitle{Pronósticos con regresión}
+
+Recuerde que las predicciones de $y$ se pueden obtener usando:
+
+
+\begin{block}{}
+\[
+  \hat{y}_t = \hat{\beta}_0 + \hat{\beta}_1 x_{1,t} + \hat{\beta}_2 x_{2,t} + \cdots + \hat{\beta}_kx_{k,t}
+\]
+\end{block}
+
+\vspace{2mm}
+
+El cual comprende los coeficientes estimados e ignora el error en la ecuación de regresión
+
+\vspace{4mm}
+
+Nos interesa pronosticar valores futuros.
+
+%\begin{itemize}
+%\item Pronósticos \textit{ex ante} vs \textit{ex post}
+%\item Pronósticos basados en escenarios
+%\end{itemize}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%\begin{frame}[fragile]
+%\frametitle{Pronósticos textit{ex ante} versus \textit{ex post}}
+
+
+%\begin{itemize}
+%\item \textbf{Los pronósticos ex ante:} son aquellos que se realizan utilizando solo la información disponible de antemano.\\
+%\vspace{2mm}
+%\highlighton{Por ejemplo,} los pronósticos ex ante para el cambio porcentual en el consumo de EE. UU. para los trimestres posteriores al final de la muestra, solo deben usar la información que estaba disponible hasta e incluyendo el tercer trimestre de 2016.
+
+%\vspace{3mm}
+%\pause
+
+%\item \textbf{Los pronósticos ex post:} son aquellos que se realizan utilizando información posterior sobre los predictores.\\
+%\vspace{2mm}
+%\highlighton{Por ejemplo,} las predicciones ex post del consumo pueden utilizar las observaciones reales de los predictores, una vez que se hayan observado. Estos no son pronósticos genuinos, pero son útiles para estudiar el comportamiento de los modelos de pronóstico.
+
+%\end{itemize}
+
+
+
+
+
+%\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%\begin{frame}[fragile]
+%\frametitle{Pronósticos \textit{ex ante} versus \textit{ex post}}
+
+%\textbf{Ejemplo: producción de cerveza trimestral en Australia}
+%\vspace{4mm}
+
+%Normalmente, no podemos utilizar valores futuros reales de las variables predictoras cuando producimos pronósticos ex ante porque sus valores no se conocerán de antemano. 
+
+%\vspace{4mm}
+
+%Sin embargo, los predictores (vistos anteriormente) son conocidos de antemano, ya que se basan en variables de calendario (por ejemplo, variables ficticias estacionales o indicadores de días festivos) o funciones deterministas de tiempo (por ejemplo, tendencia de tiempo). 
+
+%\vspace{4mm}
+
+%En tales casos, no hay diferencia entre los pronósticos ex ante y ex post.
+
+ 
+%\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Pronósticos}
+
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+beer2 <- window(ausbeer, start=1992)
+fit.beer <- tslm(beer2 ~ trend + season)
+fcast <- forecast(fit.beer)
+autoplot(fcast) +
+  ggtitle("Forecasts of beer production using regression") +
+  xlab("Year") + ylab("megalitres")
+\end{lstlisting}
+
+\pause
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{5-regression_files/figure-beamer/beeryetagain-1.pdf}
+\end{center} 
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]
+\frametitle{Pronósticos basados en escenarios}
+
+El pronosticador asume posibles escenarios para las variables predictoras que son de interés. 
+
+\vspace{4mm}
+
+\textcolor{blue}{Por ejemplo,} un creador de políticas de los Estados Unidos puede estar interesado en comparar el cambio pronosticado en el consumo cuando hay un crecimiento constante de 1\% y 0.5\% respectivamente para ingresos y ahorros sin cambios en la tasa de empleo,
+
+\begin{center}
+\highlighton{  versus  }
+\end{center}
+ 
+una disminución respectiva de 1\% y 0.5\%, para cada uno de los cuatro trimestres siguientes al final de la muestra.
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Pronósticos basados en escenarios}
+
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+fit.consBest <- tslm(
+  Consumption ~ Income + Savings + Unemployment,
+  data = uschange)
+h <- 4
+newdata <- data.frame(
+    Income = c(1, 1, 1, 1),
+    Savings = c(0.5, 0.5, 0.5, 0.5),
+    Unemployment = c(0, 0, 0, 0))
+fcast.up <- forecast(fit.consBest, newdata = newdata)
+newdata <- data.frame(
+    Income = rep(-1, h),
+    Savings = rep(-0.5, h),
+    Unemployment = rep(0, h))
+fcast.down <- forecast(fit.consBest, newdata = newdata)
+\end{lstlisting}
+
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+autoplot(uschange[, 1]) +
+  ylab("% change in US consumption") +
+  autolayer(fcast.up, PI = TRUE, series = "increase") +
+  autolayer(fcast.down, PI = TRUE, series = "decrease") +
+  guides(colour = guide_legend(title = "Scenario"))
+\end{lstlisting}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Pronósticos basados en escenarios}
+
+
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{5-regression_files/figure-beamer/usconsumptionf2-1.pdf}
+\end{center} 
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section{Regresión no lineal}
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Regresión no lineal}
+
+Hay muchos casos en los que una forma funcional no lineal es más adecuada. Para simplificar las cosas, suponemos que solo tenemos un predictor $x$.
+
+\vspace{4mm}
+\pause
+
+La forma más sencilla de modelar una relación no lineal es transformar la variable de pronóstico $y$ y/o la variable predictora $x$ antes de estimar un modelo de regresión. \highlighton{Si bien esto proporciona una forma funcional no lineal, el modelo sigue siendo lineal en los parámetros. }
+
+\pause
+\vspace{4mm}
+Una forma funcional específica: \textbf{log - log}
+
+\begin{equation}
+log (y) = \beta_0 +  \beta_1 log(x) + \varepsilon
+\end{equation}
+
+\begin{itemize}
+\item La pendiente  $\beta_1$ puede interpretarse como una elasticidad:  
+$\beta_1$ es el cambio porcentual promedio en $y$ resultante de un 1\%  aumento en $x$.
+\end{itemize}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Regresión no lineal}
+
+Hay casos en los que la simple transformación de los datos no será adecuada y puede ser necesaria una especificación más general. Entonces el modelo que usamos es:
+
+
+\begin{equation}
+y = f(x) + \varepsilon
+\end{equation}
+
+
+dónde $f$ es una función no lineal. 
+
+\vspace{4mm}
+\pause
+
+Una de las especificaciones más simples es hacer $f$ lineal por partes. Es decir, introducimos puntos donde la pendiente de $f$ puede cambiar. Estos puntos se llaman nudos . Esto se puede lograr dejando \textcolor{red}{$x_{1,t} =t$} e introduciendo \textcolor{blue}{$x_{2,t}$} tal que:
+
+
+
+\begin{equation}
+x_{2,t} = 
+   \begin{cases} 
+        0 & t < \tau  \\
+  (t-\tau) & t \geqslant \tau
+   \end{cases}
+\end{equation}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Regresión no lineal}
+
+
+Las relaciones lineales por partes construidas de esta manera son un caso especial de splines de regresión . En general, se obtiene una \textbf{spline de regresión lineal} usando:
+
+
+\begin{equation}
+x_1 = t \quad \quad x_2 = (t-\tau_1) \quad ... \quad x_k = (t-\tau_{k-1})
+\end{equation}
+
+dónde $\tau_1, \tau_2, ..., \tau_{k-1}$ son los nudos (los puntos en los que la línea puede doblarse).
+
+\vspace{4mm}
+\pause
+
+\begin{block}{}
+\small La selección del número de nudos $(k - 1)$ y dónde deben colocarse puede ser difícil y algo arbitrario. Algunos algoritmos de selección automática de nudos están disponibles en algunos programas, pero aún no se usan ampliamente.
+\end{block}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Regresión no lineal}
+
+
+Se puede obtener un resultado más uniforme utilizando cubos por partes en lugar de líneas por partes. Estos están limitados a ser continuos (se unen) y suaves (para que no haya cambios repentinos de dirección, como vemos con splines lineales por partes). 
+
+\vspace{3mm}
+En general, una \textbf{spline de regresión cúbica} se escribe como:
+
+
+\begin{equation}
+x_1 = t \quad \quad x_2 = t^2 \quad \quad x_3 = t^3 \quad \quad x_4 = (t-\tau) \quad ... \quad x_k =(t-\tau_{k-1})
+\end{equation}
+
+\begin{block}{}
+\small
+Las splines cúbicas generalmente se ajustan mejor a los datos. Sin embargo, los pronósticos de $y$ pueden llegar a volverse poco confiables cuando $x$ está fuera del rango de los datos históricos.
+\end{block}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+autoplot(marathon) +
+xlab("Year") + ylab("Winning times in minutes")
+\end{lstlisting}
+
+\pause
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{5-regression_files/figure-beamer/unnamed-chunk-10-1.pdf}
+\end{center} 
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+fit.lin <- tslm(marathon ~ trend)
+autoplot(marathon) +
+  autolayer(fitted(fit.lin), series = "Linear")+
+  xlab("Year") + ylab("Winning times in minutes")
+\end{lstlisting}
+
+\pause
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{5-regression_files/figure-beamer/marathonLinear-1.pdf}
+\end{center} 
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+autoplot(residuals(fit.lin)) +
+xlab("Year") + ylab("Residuals from a linear trend")
+\end{lstlisting}
+
+\pause
+\begin{center}
+\includegraphics[width=0.9\textwidth]{5-regression_files/figure-beamer/unnamed-chunk-11-1.pdf}
+\end{center} 
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+\textbf{Interpretación:}
+
+\vspace{4mm}
+
+Datos: los tiempos ganadores del maratón de Boston (en minutos) desde que comenzó en 1897. 
+
+\vspace{3mm}
+
+\begin{itemize}
+\item La serie temporal muestra una tendencia general a la baja a medida que los tiempos ganadores han ido mejorando a lo largo de los años. 
+\item El gráfico de residuos muestra los residuos del ajuste de una tendencia lineal a los datos. 
+\item El gráfico muestra un patrón no lineal obvio que no ha sido capturado por la tendencia lineal. 
+\item También hay algo de heterocedasticidad, con una variación decreciente con el tiempo.
+\end{itemize}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+h <- 10
+fit.lin <- tslm(marathon ~ trend)
+fcasts.lin <- forecast(fit.lin, h = h)
+fit.exp <- tslm(marathon ~ trend, lambda = 0) #Tend. Exp.
+fcasts.exp <- forecast(fit.exp, h = h)
+
+t <- time(marathon)
+t.break1 <- 1940
+t.break2 <- 1980
+tb1 <- ts(pmax(0, t - t.break1), start = 1897)
+tb2 <- ts(pmax(0, t - t.break2), start = 1897)
+
+fit.pw <- tslm(marathon ~ t + tb1 + tb2)
+t.new <- t[length(t)] + seq(h)
+tb1.new <- tb1[length(tb1)] + seq(h)
+tb2.new <- tb2[length(tb2)] + seq(h)
+
+newdata <- cbind(t=t.new, tb1=tb1.new, tb2=tb2.new) %>%
+  as.data.frame()
+fcasts.pw <- forecast(fit.pw, newdata = newdata)
+
+fit.spline <- tslm(marathon ~ t + I(t^2) + I(t^3) +
+  I(tb1^3) + I(tb2^3))
+fcasts.spl <- forecast(fit.spline, newdata = newdata)
+\end{lstlisting}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+autoplot(marathon) +
+  autolayer(fitted(fit.lin), series = "Linear") +
+  autolayer(fitted(fit.exp), series = "Exponential") +
+  autolayer(fitted(fit.pw), series = "Piecewise") +
+  autolayer(fitted(fit.spline), series = "Cubic Spline") +
+  autolayer(fcasts.pw, series="Piecewise") +
+  autolayer(fcasts.lin, series="Linear", PI=FALSE) +
+  autolayer(fcasts.exp, series="Exponential", PI=FALSE) +
+  autolayer(fcasts.spl, series="Cubic Spline", PI=FALSE) +
+  xlab("Year") + ylab("Winning times in minutes") +
+  ggtitle("Boston Marathon") +
+  guides(colour = guide_legend(title = " "))
+\end{lstlisting}
+
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+
+\begin{center}
+\includegraphics[width=0.75\textwidth]{spline.JPG}
+\end{center} 
+
+\small Los mejores pronósticos parecen provenir de la tendencia lineal por partes, mientras que la spline cúbica brinda el mejor ajuste a los datos históricos, pero los pronósticos son deficientes.
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+
+\small Existe una formulación alternativa de splines cúbicas \textbf{(llamadas splines de suavizado cúbico natural)} que impone algunas restricciones, por lo que la función de spline es lineal al final, lo que generalmente ofrece pronósticos mucho mejores sin comprometer el ajuste.
+
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+marathon %>%
+  splinef(lambda=0) %>% 
+  autoplot()
+  
+#transformación logaritmica (lambda=0) para manejar la heterocedasticidad.
+
+\end{lstlisting}
+
+\pause
+
+\begin{center}
+\includegraphics[width=0.65\textwidth]{5-regression_files/figure-beamer/unnamed-chunk-16-1.pdf}
+\end{center} 
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo: Tiempos maratón de Boston}
+
+
+\small Los residuos muestran que este modelo ha capturado bien la tendencia, aunque queda algo de heterocedasticidad. El amplio intervalo de predicción en los pronósticos refleja la volatilidad observada en los tiempos ganadores históricos.
+
+
+
+\lstset{language=r,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+marathon %>%
+  splinef(lambda=0) %>%
+  checkresiduals()
+\end{lstlisting}
+
+\pause
+
+\begin{center}
+\includegraphics[width=0.60\textwidth]{resSpline.JPG}
+\end{center} 
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+
+
+\frame{
+  \vspace{2cm}
+  {\huge Preguntas?}
+
+
+\vspace{2.5cm}
+
+\begin{flushright}
+\highlighton{
+  \usebeamerfont*{frametitle}Gracias!!},
+\end{flushright}
+
+  
+  \begin{flushright}
+    Jr.
+    
+   \structure{\footnotesize{orlando.joaqui@correounivalle.edu.co}}
+  \end{flushright}
+}
+
+
+
+
+
+
+
+\end{document}
