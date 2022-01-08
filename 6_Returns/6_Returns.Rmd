@@ -2393,8 +2393,8 @@ background-color: #00081d
 # `r icon("broom")` Shiny App
 
 .center[
-```{r fig.height = 6  }
-knitr::include_graphics("img/Dashboard.jpg")
+```{r out.width= "100%"}
+knitr::include_graphics("img/Dashboard.JPG")
 ```
 ]
 
@@ -2598,7 +2598,7 @@ width="100px"
 
 
 .center[
-<img style="border-radius: 50%;" src="img/avatar.png"
+<img style="border-radius: 50%;" src="img/avatar3.png"
 width="100px" href="https://www.joaquibarandica.com"
 />
 
