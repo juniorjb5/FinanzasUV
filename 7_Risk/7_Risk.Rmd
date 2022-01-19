@@ -1,0 +1,1550 @@
+---
+title: "Risk"
+subtitle: "<br/> Introduction to Analytics of Finance"
+author: "PhD. Diego F. Manotas-Duque <br/> PhD. St. Orlando Joaqui-Barandica"
+institute: "Universidad del Valle - Escuela Ingeniería Industrial"
+date: "2021"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: 
+      - default
+      - sydney.css
+      - rladies
+      - rladies-fonts
+      - fonts_mtheme.css
+      - cols.css
+    seal: false  
+    nature:
+      beforeInit: "cols_macro.js"
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+
+---
+
+
+
+```{r setup, include = FALSE}
+library(knitr)                              # paquete que trae funciones utiles para R Markdown
+library(tidyverse)                          # paquete que trae varios paquetes comunes en el tidyverse
+library(datos)                              # paquete que viene con datos populares traducidos al español :)
+library(shiny)
+library(icons)
+# opciones predeterminadas
+knitr::opts_chunk$set(echo = FALSE,         # FALSE: los bloques de código NO se muestran
+                      dpi = 300,            # asegura gráficos de alta resolución
+                      warning = FALSE,      # los mensajes de advertencia NO se muestran
+                      error = FALSE)        # los mensajes de error NO se muestran
+
+
+options(htmltools.dir.version = FALSE)
+
+
+
+library(tidyverse)
+library(lubridate)
+library(readxl)
+library(highcharter)
+library(tidyquant)
+library(timetk)
+library(tibbletime)
+library(quantmod)
+library(PerformanceAnalytics)
+library(scales)
+
+
+
+
+library(tidyverse)
+library(lubridate)
+library(readxl)
+library(highcharter)
+library(tidyquant)
+library(timetk)
+library(tibbletime)
+library(quantmod)
+library(PerformanceAnalytics)
+library(scales)
+
+
+
+symbols <- c("SPY","EFA", "IJS", "EEM","AGG")
+
+
+prices <-
+  getSymbols(symbols,
+             src = 'yahoo',
+             from = "2012-12-31",
+             to = "2017-12-31",
+             auto.assign = TRUE,
+             warnings = FALSE) %>%
+  map(~Ad(get(.))) %>%
+  reduce(merge) %>%
+  `colnames<-`(symbols)
+
+
+prices_monthly <- to.monthly(prices,
+                             indexAt = "lastof",
+                             OHLC = FALSE)
+head(prices_monthly, 7)
+
+
+asset_returns_xts <-
+  Return.calculate(prices_monthly,
+                   method = "log") %>%
+  na.omit()
+head(round(asset_returns_xts,3), 7)
+
+
+hc_hist <- hist(asset_returns_xts[, symbols[1]],
+                breaks = 50,
+                plot = FALSE)
+
+hchart(hc_hist, color = "cornflowerblue") %>%
+  hc_title(text =
+             paste(symbols[1],
+                   "Log Returns Distribution",
+                   sep = " ")) %>%
+  hc_add_theme(hc_theme_flat()) %>%
+  hc_exporting(enabled = TRUE) %>%
+  hc_legend(enabled = FALSE)
+
+
+
+
+
+asset_returns_dplyr_byhand <- prices %>%
+  to.monthly(indexAt = "lastof", OHLC = FALSE) %>%
+  # convert the index to a date
+  data.frame(date = index(.)) %>%
+  # now remove the index because it got converted to row names
+  remove_rownames() %>%
+  gather(asset, prices, -date) %>%
+  group_by(asset) %>%
+  mutate(returns = (log(prices) - log(lag(prices)))) %>%
+  select(-prices) %>%
+  spread(asset, returns) %>%
+  select(date, symbols)
+
+
+asset_returns_dplyr_byhand <-
+  asset_returns_dplyr_byhand %>%
+  na.omit()
+
+
+
+asset_returns_long <-
+  asset_returns_dplyr_byhand %>%
+  gather(asset, returns, -date) %>%
+  group_by(asset)
+
+
+asset_returns_long %>%
+  ggplot(aes(x = date, y = returns, color=asset)) +
+  geom_line()+
+  ggtitle("Monthly Returns Since 2013") +
+  xlab("Date") +
+  ylab("Returns") +
+  theme_update(plot.title = element_text(hjust = 0.5))
+
+
+
+
+
+w <- c(0.25, 0.25, 0.20, 0.20, 0.10)
+tibble(w, symbols)
+
+w_1 <- w[1]
+w_2 <- w[2]
+w_3 <- w[3]
+w_4 <- w[4]
+w_5 <- w[5]
+asset1 <- asset_returns_xts[,1]
+asset2 <- asset_returns_xts[,2]
+asset3 <- asset_returns_xts[,3]
+asset4 <- asset_returns_xts[,4]
+asset5 <- asset_returns_xts[,5]
+portfolio_returns_byhand <-
+  (w_1 * asset1) +
+  (w_2 * asset2) +
+  (w_3 * asset3) +
+  (w_4 * asset4) +
+  (w_5 * asset5)
+names(portfolio_returns_byhand) <- "returns"
+
+
+portfolio_returns_tq_rebalanced_monthly <-
+  asset_returns_long %>%
+  tq_portfolio(assets_col = asset,
+               returns_col = returns,
+               weights = w,
+               col_rename = "returns",
+               rebalance_on = "months")
+
+
+
+portfolio_returns_xts_rebalanced_monthly <-
+Return.portfolio(asset_returns_xts,
+weights = w,
+rebalance_on = "months") %>%
+`colnames<-`("returns")
+
+
+
+portfolio_returns_dplyr_byhand <-
+asset_returns_long %>%
+group_by(asset) %>%
+mutate(weights = case_when(asset == symbols[1] ~ w[1],
+asset == symbols[2] ~ w[2],
+asset == symbols[3] ~ w[3],
+asset == symbols[4] ~ w[4],
+asset == symbols[5] ~ w[5]),
+weighted_returns = returns * weights) %>%
+group_by(date) %>%
+summarise(returns = sum(weighted_returns))
+
+
+```
+
+class: left, bottom
+background-image: url("img/back1.jpg")
+background-size: cover
+
+
+# **`r rmarkdown::metadata$title`**
+----
+
+## **`r rmarkdown::metadata$institute`**
+
+### `r rmarkdown::metadata$author`
+### `r rmarkdown::metadata$date`
+
+```{r xaringanExtra-share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+---
+name: hola
+class: inverse, middle, center
+background-color: #E31D1D
+
+<img style="border-radius: 50%;" src="img/uv3.jpg"
+width="150px"
+/>
+
+# Universidad del Valle
+
+--
+
+## Maestría en Análitica e Inteligencia de Negocios
+---
+
+
+
+
+.pull-left[
+
+<br><br>
+
+.center[
+<img style="border-radius: 50%;" src="img/avatar2.PNG"
+width="160px"
+/>
+
+[PhD. Diego F. Manotas-Duque](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque) <br>
+Universidad del Valle
+]
+
+<br>
+
+.center[
+
+*PhD. in Engineering with emphasis in Electrical Engineering*
+
+*MSc. in Management - Finance Emphasis*
+
+*Finance Specialist*
+
+*Industrial Engineer*
+
+`r icon::fa("link", animate = "spin")` [Personal Webpage](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque)
+
+]
+
+]
+
+
+
+.pull-right[
+
+
+<br><br>
+
+.center[
+<img style="border-radius: 50%;" src="img/avatar.png"
+width="160px" href="https://www.joaquibarandica.com"
+/>
+
+[PhD. Student. Orlando Joaqui-Barandica](https://www.joaquibarandica.com) <br/>
+Universidad del Valle
+]
+
+<br>
+
+
+.center[
+
+*PhD. Student in Engineering with emphasis in Engineering Industrial* 
+ 
+*MSc. Applied Economics*
+ 
+*BSc. Statistic*
+
+<br>
+
+`r icon::fa("link", animate = "spin")` [www.joaquibarandica.com](https://www.joaquibarandica.com)
+
+]
+
+
+]
+
+
+---
+
+class: center, middle
+
+<img src="img/gifinc.jpg" width="50%"/>
+
+### [https://gifinc.univalle.edu.co/](https://gifinc.univalle.edu.co/)
+
+
+---
+
+name: menu
+background-image: url("img/back2.jpg")
+background-size: cover
+class: left, middle
+
+
+# Contenido
+
+----
+
+
+.pull-left[
+### `r icon("upload")` [Desviación Estándar](#sd)
+* xts
+* tidyverse
+
+
+### `r icon("broom")` [Asimetría](#sk)
+* xts
+* tidyverse
+
+
+]
+
+
+.pull-right[
+
+### `r icon("cubes")` [Curtosis](#kurto)
+* xts
+* tidyverse
+
+
+
+]
+
+---
+
+name: sd
+class: inverse, center, middle
+background-color: #00081d
+
+# `r icon("upload")`
+# Standard Deviation
+----
+
+.right[
+.bottom[
+####  [`r icon("bell")`](#menu)
+]
+]
+
+---
+
+# `r icon("upload")` Packages
+
+
+Los siguientes son los paquetes que serán utilizados en los temas del curso.
+
+
+----
+
+.scroll-box-20[
+```{r eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 4}
+
+
+# Recuerde cargar las librerías
+
+library(tidyverse)
+library(lubridate)
+library(readxl)
+library(highcharter)
+library(tidyquant)
+library(timetk)
+library(tibbletime)
+library(quantmod)
+library(PerformanceAnalytics)
+library(scales)
+library(plotly)
+
+```
+]
+
+----
+
+
+---
+
+# `r icon("upload")` Standard Deviation
+
+
+
+
+.pull-left[
+
+
+<br>
+<br>
+<br>
+
+### $$\sigma =  \sqrt{ \frac{\sum_{t=1}^{n} (x_i - \bar{x})^2}{n}}$$
+
+
+
+]
+
+
+.pull-right[
+
+
+
+* $x_i$ es el retorno mensual de cada portafolio.
+
+<br>
+
+* $\bar{x}$ es el promedio mensual del retorno de los portafolios.
+
+<br>
+
+* $n$ es el número de observaciones
+
+<br>
+
+> La desviación estándar mide el grado en que los rendimientos de una cartera se dispersan alrededor de su media. Si los rendimientos están más dispersos, la cartera tiene una desviación estándar más alta y se considera más riesgosa o más volátil
+
+]
+
+
+---
+
+
+
+# `r icon("upload")` Standard Deviation `xts`
+
+
+.pull-left[
+
+En el paradigma `xts`, podemos usar la función `StdDev()` integrada de `PerformanceAnalytics` para pasar directamente de la rentabilidad de los activos a la desviación estándar de la cartera. Toma dos argumentos, un vector de retornos y pesos: `StdDev(asset_returns_xts, weights = w)`.
+
+<br>
+<br>
+
+> Por favor genere los objetos necesarios para crear `asset_returns_xts`, replique los códigos de la clase anterior.
+
+
+
+]
+
+
+.pull-right[
+
+
+```{r eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 4}
+
+portfolio_sd_xts_builtin <-
+           StdDev(asset_returns_xts, weights = w)
+           portfolio_sd_xts_builtin_percent <-
+           round(portfolio_sd_xts_builtin * 100, 2)
+           portfolio_sd_xts_builtin_percent[1,1]
+
+```
+
+
+
+]
+
+
+---
+
+
+
+# `r icon("upload")` Standard Deviation `tidyverse`
+
+
+.pull-left[
+
+Para `tidyverse`, empezamos con `portfolio_returns_dplyr_byhand` y use las funciones `summarise()` y `sd()`. 
+
+También realizaremos el cálculo con nuestra propia ecuación `sqrt(sum((returns - mean(returns))ˆ2)/(nrow(.)-1)))` como un ejemplo de cómo poner una ecuación personalizada en `summarise()`
+
+<br>
+<br>
+
+> Por favor genere los objetos necesarios para crear `portfolio_returns_dplyr_byhand`, replique los códigos de la clase anterior.
+
+
+
+]
+
+
+.pull-right[
+
+
+```{r eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 4}
+
+portfolio_sd_tidy_builtin_percent <-
+            portfolio_returns_dplyr_byhand %>%
+            summarise(
+            sd = sd(returns),
+            sd_byhand =
+            sqrt(sum((returns - mean(returns))^2)/(nrow(.)-1))) %>%
+            mutate(dplyr = round(sd, 4) * 100,
+            dplyr_byhand = round(sd_byhand, 4) * 100)
+            portfolio_sd_tidy_builtin_percent %>%
+            select(dplyr, dplyr_byhand)
+
+```
+
+
+
+]
+
+
+---
+
+
+
+# `r icon("upload")` Standard Deviation `tidyquant`
+
+
+.pull-left[
+
+En el flujo `tidyquant`, comenzamos con `portfolio_returns_tq_rebalanced_monthly` y llamamos la función `table.Stats()` de `PerformanceAnalytics` a través de `tq_performance()`. 
+
+La función `table.Stats()` devuelve una tabla de estadísticas para la cartera, pero dado que solo queremos una desviación estándar, usaremos `dplyr` para seleccionar la columna `Stdev`.
+
+<br>
+<br>
+
+> Por favor genere los objetos necesarios para crear `portfolio_returns_tq_rebalanced_monthly`, replique los códigos de la clase anterior.
+
+
+
+]
+
+
+.pull-right[
+
+
+```{r eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 4}
+
+portfolio_sd_tidyquant_builtin_percent <-
+            portfolio_returns_tq_rebalanced_monthly %>%
+            tq_performance(Ra = returns,
+            Rb = NULL,
+            performance_fun = table.Stats) %>%
+            select(Stdev) %>%
+            mutate(tq_sd = round(Stdev, 4) * 100)
+
+```
+
+
+
+]
+
+
+---
+
+
+
+
+
+# `r icon("upload")` Standard Deviation `(Visualization)`
+
+
+
+.pull-left[
+
+
+* Primero, crearemos un indicador para el rendimiento medio con `mean()` y uno para la desviación estándar con `sd()`. Llamaremos a las variables `mean_plot` y `sd_plot` ya que planeamos usarlas en un gráfico y no para nada más.
+
+
+
+
+----
+.scroll-box-14[
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+
+sd_plot <- sd(portfolio_returns_tq_rebalanced_monthly$returns)
+
+mean_plot <- mean(portfolio_returns_tq_rebalanced_monthly$returns)
+
+portfolio_returns_tq_rebalanced_monthly %>%
+            mutate(hist_col_red =
+            if_else(returns < (mean_plot - sd_plot),
+            returns, as.numeric(NA)),
+            hist_col_green =
+            if_else(returns > (mean_plot + sd_plot),
+            returns, as.numeric(NA)),
+            hist_col_blue =
+            if_else(returns > (mean_plot - sd_plot) &
+            returns < (mean_plot + sd_plot),
+            returns, as.numeric(NA))) %>%
+            ggplot(aes(x = date)) +
+            geom_point(aes(y = hist_col_red),
+            color = "red") +
+            geom_point(aes(y = hist_col_green),
+            color = "green") +
+            geom_point(aes(y = hist_col_blue),
+            color = "blue") +
+            labs(title = "Colored Scatter", y = "monthly returns") +
+            scale_x_date(breaks = pretty_breaks(n = 8)) +
+            theme(plot.title = element_text(hjust = 0.5))
+  
+```
+]
+----
+
+]
+
+.pull-right[
+
+
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+sd_plot <-
+    sd(portfolio_returns_tq_rebalanced_monthly$returns)
+
+mean_plot <-
+    mean(portfolio_returns_tq_rebalanced_monthly$returns)
+
+
+portfolio_returns_tq_rebalanced_monthly %>%
+mutate(hist_col_red =
+if_else(returns < (mean_plot - sd_plot),
+returns, as.numeric(NA)),
+hist_col_green =
+if_else(returns > (mean_plot + sd_plot),
+returns, as.numeric(NA)),
+hist_col_blue =
+if_else(returns > (mean_plot - sd_plot) &
+returns < (mean_plot + sd_plot),
+returns, as.numeric(NA))) %>%
+ggplot(aes(x = date)) +
+geom_point(aes(y = hist_col_red),
+color = "red") +
+geom_point(aes(y = hist_col_green),
+color = "green") +
+geom_point(aes(y = hist_col_blue),
+color = "blue") +
+labs(title = "Colored Scatter", y = "monthly returns") +
+scale_x_date(breaks = pretty_breaks(n = 8)) +
+theme(plot.title = element_text(hjust = 0.5))
+  
+
+```
+
+
+]
+
+---
+
+
+
+# `r icon("upload")` Standard Deviation `(Visualization)`
+
+
+
+.pull-left[
+
+
+----
+.scroll-box-14[
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+portfolio_returns_tq_rebalanced_monthly %>%
+      mutate(hist_col_red =
+          if_else(returns < (mean_plot - sd_plot),
+          returns, as.numeric(NA)),
+          hist_col_green =
+          if_else(returns > (mean_plot + sd_plot),
+          returns, as.numeric(NA)),
+          hist_col_blue =
+          if_else(returns > (mean_plot - sd_plot) &
+          returns < (mean_plot + sd_plot),
+          returns, as.numeric(NA))) %>%
+      ggplot(aes(x = date)) +
+          geom_point(aes(y = hist_col_red),
+          color = "red") +
+          geom_point(aes(y = hist_col_green),
+          color = "green") +
+          geom_point(aes(y = hist_col_blue),
+          color = "blue") +
+          geom_hline(yintercept = (mean_plot + sd_plot),
+          color = "purple",
+          linetype = "dotted") +
+          geom_hline(yintercept = (mean_plot-sd_plot),
+          color = "purple",
+          linetype = "dotted") +
+          labs(title = "Colored Scatter with Line", y = "monthly returns") +
+          scale_x_date(breaks = pretty_breaks(n = 8)) +
+          theme(plot.title = element_text(hjust = 0.5))
+  
+```
+]
+----
+
+]
+
+.pull-right[
+
+
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+portfolio_returns_tq_rebalanced_monthly %>%
+      mutate(hist_col_red =
+          if_else(returns < (mean_plot - sd_plot),
+          returns, as.numeric(NA)),
+          hist_col_green =
+          if_else(returns > (mean_plot + sd_plot),
+          returns, as.numeric(NA)),
+          hist_col_blue =
+          if_else(returns > (mean_plot - sd_plot) &
+          returns < (mean_plot + sd_plot),
+          returns, as.numeric(NA))) %>%
+      ggplot(aes(x = date)) +
+          geom_point(aes(y = hist_col_red),
+          color = "red") +
+          geom_point(aes(y = hist_col_green),
+          color = "green") +
+          geom_point(aes(y = hist_col_blue),
+          color = "blue") +
+          geom_hline(yintercept = (mean_plot + sd_plot),
+          color = "purple",
+          linetype = "dotted") +
+          geom_hline(yintercept = (mean_plot-sd_plot),
+          color = "purple",
+          linetype = "dotted") +
+          labs(title = "Colored Scatter with Line", y = "monthly returns") +
+          scale_x_date(breaks = pretty_breaks(n = 8)) +
+          theme(plot.title = element_text(hjust = 0.5))
+  
+
+```
+
+
+]
+
+---
+
+
+
+# `r icon("upload")` Standard Deviation `(Visualization)`
+
+
+.pull-left[
+
+
+Este gráfico muestra Una buena perspectiva del rendimiento de nuestra cartera frente al perfil de riesgo (y se ve bastante bien), aunque el S&P500 tiene un rendimiento esperado más alto por un poco más de riesgo. EEM y EFA tienen un riesgo más alto y un rendimiento esperado más bajo (¡ningún inversor racional quiere eso!) e IJS tiene un riesgo más alto y un rendimiento esperado más alto (¡algunos inversores racionales sí quieren eso!).
+
+
+----
+.scroll-box-12[
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+asset_returns_long %>%
+   group_by(asset) %>%
+   summarise(expected_return = mean(returns),
+   stand_dev = sd(returns)) %>%
+   add_row(asset = "Portfolio",
+   stand_dev =
+   sd(portfolio_returns_tq_rebalanced_monthly$returns),
+   expected_return =
+   mean(portfolio_returns_tq_rebalanced_monthly$returns)) %>%
+   ggplot(aes(x = stand_dev,
+   y = expected_return,
+   color = asset)) +
+   geom_point(size = 2) +
+     geom_text(
+   aes(x =
+   sd(portfolio_returns_tq_rebalanced_monthly$returns) * 1.11,
+   y =
+   mean(portfolio_returns_tq_rebalanced_monthly$returns),
+   label = "Portfolio")) +
+   ylab("expected return") +
+   xlab("standard deviation") +
+   ggtitle("Expected Monthly Returns versus Risk") +
+   scale_y_continuous(labels = function(x){ paste0(x, "%")}) +
+   theme_update(plot.title = element_text(hjust = 0.5))
+  
+```
+]
+----
+
+]
+
+.pull-right[
+
+
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+asset_returns_long %>%
+   group_by(asset) %>%
+   summarise(expected_return = mean(returns),
+   stand_dev = sd(returns)) %>%
+   add_row(asset = "Portfolio",
+   stand_dev =
+   sd(portfolio_returns_tq_rebalanced_monthly$returns),
+   expected_return =
+   mean(portfolio_returns_tq_rebalanced_monthly$returns)) %>%
+   ggplot(aes(x = stand_dev,
+   y = expected_return,
+   color = asset)) +
+   geom_point(size = 2) +
+     geom_text(
+   aes(x =
+   sd(portfolio_returns_tq_rebalanced_monthly$returns) * 1.11,
+   y =
+   mean(portfolio_returns_tq_rebalanced_monthly$returns),
+   label = "Portfolio")) +
+   ylab("expected return") +
+   xlab("standard deviation") +
+   ggtitle("Expected Monthly Returns versus Risk") +
+   scale_y_continuous(labels = function(x){ paste0(x, "%")}) +
+   #The next line centers the title
+   theme_update(plot.title = element_text(hjust = 0.5))
+  
+
+```
+
+
+]
+
+---
+
+
+# `r icon("broom")` Rolling Standard Deviation
+
+
+
+.pull-left[
+
+<br>
+
+### Hemos calculado la volatilidad promedio para toda la vida de la cartera, pero ayudaría si pudiéramos comprender mejor cómo ha cambiado esa volatilidad con el tiempo o cómo se comportó en diferentes condiciones de mercado.
+
+
+
+
+
+]
+
+.pull-right[
+
+<br>
+
+.center[
+Podríamos perdernos un período de 3 o 6 meses en el que la volatilidad se disparó o se desplomó o hizo ambas cosas. Y cuanto más larga sea la vida de nuestra cartera, más probable será que nos perdamos algo importante. Si tuviéramos 10 o 20 años de datos y calculáramos la desviación estándar para toda la historia, podríamos, o seguramente no notaríamos, un período en el que la volatilidad fue muy alta y, por lo tanto, no ponderaríamos la probabilidad de que podría volver a ocurrir.
+]
+
+]
+
+---
+
+
+# `r icon("broom")` Rolling Standard Deviation `xts`
+
+
+
+.pull-left[
+
+El mundo `xts` está diseñado específicamente para series temporales y, como tal, calcular la desviación estándar móvil es sencillo.
+
+
+Primero, asignamos un valor de 24 a la ventana variable
+
+
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+window <- 24
+  
+```
+
+
+Luego invocamos `rollapply()`, le pasamos nuestro objeto de retorno `xts`, la función `sd()` y una ventana móvil con `width = window`.
+
+
+
+
+]
+
+.pull-right[
+
+
+```{r eval =TRUE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+window <- 24
+
+port_rolling_sd_xts <-
+      rollapply(portfolio_returns_xts_rebalanced_monthly,
+      FUN = sd,
+      width = window) %>%
+      na.omit() %>%
+      `colnames<-`("rolling_sd")
+
+tail(port_rolling_sd_xts, 6)
+  
+
+```
+
+
+]
+
+---
+
+
+
+# `r icon("broom")` Rolling Standard Deviation `xts`
+
+
+
+.pull-left[
+
+
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+port_rolling_sd_xts_hc <-
+round(port_rolling_sd_xts, 4) * 100
+
+highchart(type = "stock") %>%
+hc_title(text = "24-Month Rolling Volatility") %>%
+hc_add_series(port_rolling_sd_xts_hc,
+color = "cornflowerblue") %>%
+hc_add_theme(hc_theme_flat()) %>%
+hc_yAxis(
+labels = list(format = "{value}%"),
+opposite = FALSE) %>%
+hc_navigator(enabled = FALSE) %>%
+hc_scrollbar(enabled = FALSE) %>%
+hc_exporting(enabled= TRUE) %>%
+hc_legend(enabled = TRUE)
+  
+```
+
+
+
+]
+
+.pull-right[
+
+
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+port_rolling_sd_xts_hc <-
+round(port_rolling_sd_xts, 4) * 100
+
+highchart(type = "stock") %>%
+hc_title(text = "24-Month Rolling Volatility") %>%
+hc_add_series(port_rolling_sd_xts_hc,
+color = "cornflowerblue") %>%
+hc_add_theme(hc_theme_flat()) %>%
+hc_yAxis(
+labels = list(format = "{value}%"),
+opposite = FALSE) %>%
+hc_navigator(enabled = FALSE) %>%
+hc_scrollbar(enabled = FALSE) %>%
+hc_exporting(enabled= TRUE) %>%
+hc_legend(enabled = TRUE)
+  
+
+```
+
+
+]
+
+---
+
+
+# `r icon("broom")` Rolling Standard Deviation `tidyverse`
+
+
+
+.pull-left[
+
+En el tidyverse, los cálculos continuos con series de tiempo son un poco más complejos
+
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+port_rolling_sd_tidy_does_not_work <-
+    portfolio_returns_dplyr_byhand %>%
+    mutate(rolling_sd = rollapply(returns,
+    FUN = sd,
+    width = window,
+    fill = NA)) %>%
+    select(date, rolling_sd) %>%
+    na.omit()
+
+
+tail(port_rolling_sd_tidy_does_not_work, 6)
+  
+```
+
+
+
+]
+
+.pull-right[
+
+
+```{r eval =TRUE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+port_rolling_sd_tidy_does_not_work <-
+    portfolio_returns_dplyr_byhand %>%
+    mutate(rolling_sd = rollapply(returns,
+    FUN = sd,
+    width = window,
+    fill = NA)) %>%
+    select(date, rolling_sd) %>%
+    na.omit()
+
+
+tail(port_rolling_sd_tidy_does_not_work, 6)
+  
+
+```
+
+
+]
+
+---
+
+
+
+# `r icon("broom")` Rolling Standard Deviation `tidyverse`
+
+
+
+.pull-left[
+
+
+
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+port_rolling_sd_tq <-
+portfolio_returns_tq_rebalanced_monthly %>%
+tq_mutate(mutate_fun = rollapply,
+width = window,
+FUN = sd,
+col_rename = "rolling_sd") %>%
+select(date, rolling_sd) %>%
+na.omit()  
+
+port_rolling_sd_tq %>%
+ggplot(aes(x = date)) +
+geom_line(aes(y = rolling_sd), color = "cornflowerblue") +
+scale_y_continuous(labels = scales::percent) +
+scale_x_date(breaks = pretty_breaks(n = 8)) +
+labs(title = "Rolling Standard Deviation", y = "") +
+theme(plot.title = element_text(hjust = 0.5))
+
+
+```
+
+
+
+]
+
+.pull-right[
+
+
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+port_rolling_sd_tq <-
+portfolio_returns_tq_rebalanced_monthly %>%
+tq_mutate(mutate_fun = rollapply,
+width = window,
+FUN = sd,
+col_rename = "rolling_sd") %>%
+select(date, rolling_sd) %>%
+na.omit()  
+
+port_rolling_sd_tq %>%
+ggplot(aes(x = date)) +
+geom_line(aes(y = rolling_sd), color = "cornflowerblue") +
+scale_y_continuous(labels = scales::percent) +
+scale_x_date(breaks = pretty_breaks(n = 8)) +
+labs(title = "Rolling Standard Deviation", y = "") +
+theme(plot.title = element_text(hjust = 0.5))
+  
+
+```
+
+
+]
+
+---
+
+
+
+name: sk
+class: inverse, center, middle
+background-color: #00081d
+
+# `r icon("upload")`
+# Skewness
+----
+
+.right[
+.bottom[
+####  [`r icon("bell")`](#menu)
+]
+]
+
+---
+
+
+
+# `r icon("broom")` Skewness `xts`
+
+
+.pull-left[
+
+
+La asimetría es el grado en que los rendimientos son asimétricos en torno a su media.
+
+Dado que una distribución normal es simétrica alrededor de la media, la asimetría puede tomarse como una medida de cómo los rendimientos no se distribuyen normalmente. 
+
+.center[
+## ¿Por qué importa la asimetría? 
+]
+
+
+]
+
+
+.pull-right[
+
+----
+
+```{r eval =TRUE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+skew_xts <-
+     skewness(portfolio_returns_xts_rebalanced_monthly$returns)
+
+
+skew_xts
+
+```
+
+----
+
+
+.center[
+Si los rendimientos de la cartera son correctos, o positivamente sesgados, implica numerosos rendimientos negativos pequeños y algunos rendimientos positivos grandes. Si los rendimientos de la cartera son sesgados a la izquierda o negativamente, implica numerosos rendimientos positivos pequeños y pocos rendimientos negativos grandes.
+]
+
+
+]
+
+---
+
+
+# `r icon("broom")` Skewness `tidyverse`
+
+
+
+.pull-left[
+
+
+La asimetría tiene importantes implicaciones sustantivas para el riesgo y también es un concepto que se presta a la visualización de datos. 
+
+De hecho, las visualizaciones a menudo son más esclarecedoras que los números mismos (aunque los números son lo que importa al final).
+
+]
+
+.pull-right[
+
+----
+
+```{r eval =TRUE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+skew_tidy <-
+   portfolio_returns_tq_rebalanced_monthly %>%
+   summarise(skew_builtin = skewness(returns))
+
+skew_tidy
+```
+
+----
+
+]
+
+
+
+---
+
+
+
+# `r icon("broom")` Skewness `tidyverse`
+
+
+
+.pull-left[
+
+
+----
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+portfolio_density_plot <-
+    portfolio_returns_tq_rebalanced_monthly %>%
+    ggplot(aes(x = returns)) +
+    stat_density(geom = "line",
+    alpha = 1,
+    colour = "cornflowerblue")
+
+
+shaded_area_data <-
+   ggplot_build(portfolio_density_plot)$data[[1]] %>%
+   filter(x <
+   mean(portfolio_returns_tq_rebalanced_monthly$returns))
+
+portfolio_density_plot_shaded <-
+   portfolio_density_plot +
+   geom_area(data = shaded_area_data,
+   aes(x = x, y = y),
+   fill="pink",
+   alpha = 0.5)
+
+
+portfolio_density_plot_shaded
+
+```
+----
+
+
+
+]
+
+.pull-right[
+
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+portfolio_density_plot <-
+    portfolio_returns_tq_rebalanced_monthly %>%
+    ggplot(aes(x = returns)) +
+    stat_density(geom = "line",
+    alpha = 1,
+    colour = "cornflowerblue")
+
+
+shaded_area_data <-
+   ggplot_build(portfolio_density_plot)$data[[1]] %>%
+   filter(x <
+   mean(portfolio_returns_tq_rebalanced_monthly$returns))
+
+portfolio_density_plot_shaded <-
+   portfolio_density_plot +
+   geom_area(data = shaded_area_data,
+   aes(x = x, y = y),
+   fill="pink",
+   alpha = 0.5)
+
+
+portfolio_density_plot_shaded
+
+```
+
+
+]
+
+
+
+---
+
+
+
+
+# `r icon("broom")` Skewness `tidyverse`
+
+
+
+.scroll-box-18[
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE }
+
+portfolio_density_plot_shaded <-
+   portfolio_density_plot +
+   geom_area(data = shaded_area_data,
+   aes(x = x, y = y),
+   fill="pink",
+   alpha = 0.5)
+
+median <-
+  median(portfolio_returns_tq_rebalanced_monthly$returns)
+
+mean <-
+  mean(portfolio_returns_tq_rebalanced_monthly$returns)
+
+median_line_data <-
+  ggplot_build(portfolio_density_plot)$data[[1]] %>%
+  filter(x <= median)
+
+portfolio_density_plot_shaded +
+  geom_segment(data = shaded_area_data,
+  aes(x = mean, y = 0, xend = mean, yend = density), 
+  color = "red", linetype = "dotted") +
+  annotate(geom = "text",
+  x = mean, y = 5, label = "mean",  color = "red",
+  fontface = "plain", angle = 90, alpha = .8, vjust = -1.75) +
+  geom_segment(data = median_line_data,
+  aes(x = median, y = 0, xend = median, yend = density),
+  color = "black",  linetype = "dotted") +
+  annotate(geom = "text",
+  x = median, y = 5,   label = "median",
+  fontface = "plain", angle = 90, alpha = .8,   vjust = 1.75) +
+  ggtitle("Density Plot Illustrating Skewness")
+```
+]
+
+
+---
+
+
+
+# `r icon("broom")` Skewness `tidyverse`
+
+
+
+
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 3 }
+
+median <-
+  median(portfolio_returns_tq_rebalanced_monthly$returns)
+
+mean <-
+  mean(portfolio_returns_tq_rebalanced_monthly$returns)
+
+median_line_data <-
+  ggplot_build(portfolio_density_plot)$data[[1]] %>%
+  filter(x <= median)
+
+portfolio_density_plot_shaded +
+  geom_segment(data = shaded_area_data,
+  aes(x = mean, y = 0, xend = mean, yend = density), 
+  color = "red", linetype = "dotted") +
+  annotate(geom = "text",
+  x = mean, y = 5, label = "mean",  color = "red",
+  fontface = "plain", angle = 90, alpha = .8, vjust = -1.75) +
+  geom_segment(data = median_line_data,
+  aes(x = median, y = 0, xend = median, yend = density),
+  color = "black",  linetype = "dotted") +
+  annotate(geom = "text",
+  x = median, y = 5,   label = "median",
+  fontface = "plain", angle = 90, alpha = .8,   vjust = 1.75) +
+  ggtitle("Density Plot Illustrating Skewness")
+
+
+```
+
+
+
+
+---
+
+
+
+
+
+name: kurto
+class: inverse, center, middle
+background-color: #00081d
+
+# `r icon("upload")`
+# Kurtosis
+----
+
+.right[
+.bottom[
+####  [`r icon("bell")`](#menu)
+]
+]
+
+---
+
+
+
+# `r icon("broom")` Kurtosis `xts`
+
+
+.pull-left[
+
+
+La curtosis es una medida del grado en que los rendimientos de la cartera aparecen en las colas de su distribución.
+
+Una distribución con una curtosis mayor a 3 tiene más retornos en sus colas que la normal, y una con una curtosis menor a 3 tiene menos retornos en sus colas que la normal.
+
+.center[
+### Eso es importante para los inversores porque más malos rendimientos en las colas significan que nuestra cartera podría estar en riesgo de un evento a la baja raro pero enorme.
+]
+
+
+]
+
+
+.pull-right[
+
+----
+
+```{r eval =TRUE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+kurt_xts <-
+    kurtosis(portfolio_returns_xts_rebalanced_monthly$returns)
+
+
+kurt_xts
+
+```
+
+----
+
+
+
+]
+
+---
+
+
+
+# `r icon("broom")` Kurtosis `tidyverse`
+
+
+
+.pull-left[
+
+
+.center[
+* La curtosis a menudo se describe como exceso negativo o exceso positivo, y eso es en comparación con una curtosis de 3. 
+
+* Sin embargo, recuerde que la curtosis negativa significa menos retornos en las colas y, probablemente, menos riesgo.
+]
+
+
+]
+
+.pull-right[
+
+----
+
+```{r eval =TRUE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+kurt_tidy <-
+portfolio_returns_tq_rebalanced_monthly %>%
+summarise(
+kurt_builtin = kurtosis(returns))
+```
+
+----
+
+]
+
+
+
+
+
+
+---
+
+
+
+class: inverse, center, middle
+background-color: #00081d
+
+
+
+
+.pull-left[
+
+.center[
+<br><br>
+
+# Thanks!!!
+
+<br><br><br><br><br>
+
+
+
+### Questions?
+]
+
+
+]
+
+
+.pull-right[
+
+
+.center[
+<img style="border-radius: 50%;" src="img/avatar2.PNG"
+width="100px"
+/>
+
+`r anicon::faa("envelope", animate = "passing")` diego.manotas@correounivalle.edu.co
+
+
+<br><br><br>
+
+
+.center[
+<img style="border-radius: 50%;" src="img/avatar3.png"
+width="100px" href="https://www.joaquibarandica.com"
+/>
+
+`r anicon::faa("envelope", animate = "passing")` orlando.joaqui@correounivalle.edu.co 
+]
+
+
+
+]
+
+
+]
+
+
+<br><br><br>
+
+----
+
+*The images used to set the presentation are from [pixabay](https://pixabay.com/).*
+
+
+
+
