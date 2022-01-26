@@ -531,8 +531,8 @@ Como norma general se utiliza el interés que pagan por los Bonos del Estado, pu
 # `r icon("upload")` Sharpe Ratio
 
 .center[
-```{r out.width= "90%"}
-knitr::include_graphics("img/Tasas.JPG")
+```{r out.width= "80%"}
+knitr::include_graphics("img/Tasas.jpg")
 ```
 ]
 
