@@ -532,7 +532,7 @@ Como norma general se utiliza el interés que pagan por los Bonos del Estado, pu
 
 .center[
 ```{r out.width= "80%"}
-knitr::include_graphics("img/Tasas.jpg")
+knitr::include_graphics("img/Tasas.JPG")
 ```
 ]
 
