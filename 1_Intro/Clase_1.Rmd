@@ -1,9 +1,9 @@
 ---
-title: "Introducción analítica para las finanzas"
+title: "Introducción: Analítica para las finanzas"
 subtitle: "<br/> Introducción analítica para las finanzas"
 author: "PhD.(C). Orlando Joaqui-Barandica"
 institute: "Universidad del Valle - Escuela Ingeniería Industrial"
-date: "2021"
+date: "2022"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -202,11 +202,10 @@ Hace mucho tiempo, las computadoras hicieron que los corredores fueran innecesar
 
 > Pero el último bastión del antiguo orden ahora está amenazado.
 
-Las decisiones de inversión ya no las toman los financieros, sino cada vez más los matemáticos doctores y los programas informáticos inmensamente complejos que diseñan.
-
-
 
 ]
+
+Las decisiones de inversión ya no las toman los financieros, sino cada vez más los matemáticos y los programas informáticos inmensamente complejos que diseñan.
 
 
 ???
@@ -279,8 +278,8 @@ El comercio cuantitativo se está apoderando de las capitales financieras del mu
 
 <br>
 
-
-Durante mucho tiempo, los matemáticos han desempeñado un papel vital en la gestión de riesgos en las instituciones financieras, pero su conjunto de habilidades se utiliza cada vez más para ganar dinero, no solo para dejar de perderlo.
+.left[
+Durante mucho tiempo, los matemáticos han desempeñado un papel vital en la gestión de riesgos en las instituciones financieras, pero su conjunto de habilidades se utiliza cada vez más para ganar dinero, no solo para dejar de perderlo.]
 
 ]
 
@@ -350,9 +349,8 @@ Estos llamados programas de comercio cuantitativo sustentan todas las operacione
 .center[
 .font140[
 
-<br>
 
-Quant trading ayudó a reducir los costos de negociación y mejorar la liquidez, y no perjudicó la eficiencia general del mercado.
+**Quant trading** ayudó a reducir los costos de negociación y mejorar la liquidez, y no perjudicó la eficiencia general del mercado.
 
 De hecho, descubrió que HFT y el comercio cuantitativo **"generalmente han mejorado la calidad del mercado".**
 ]
@@ -369,10 +367,10 @@ De hecho, descubrió que HFT y el comercio cuantitativo **"generalmente han mejo
 
 .right-column[
 
-.font140[Una acción pierde valor,] lo que desencadena una venta en un programa cuantitativo, lo que hace que el precio de la acción baje aún más. Esto, a su vez, desencadena una venta en otro programa, lo que hace que el precio baje aún más, y así sucesivamente.
+.font120[**Una acción pierde valor,**] lo que desencadena una venta en un programa cuantitativo, lo que hace que el precio de la acción baje aún más. Esto, a su vez, desencadena una venta en otro programa, lo que hace que el precio baje aún más, y así sucesivamente.
 
 
-`El problema se agrava` por el hecho de que muchos programas se ejecutan con las mismas fórmulas y, por lo tanto, se acumulan dentro y fuera de las mismas existencias.
+**`El problema se agrava`** por el hecho de que muchos programas se ejecutan con las mismas fórmulas y, por lo tanto, se acumulan dentro y fuera de las mismas existencias.
 
 
 
@@ -418,7 +416,7 @@ El 6 de mayo de 2010, los mercados de valores estadounidenses abrieron y el Dow 
 
 ----
 
-> ### Otros apuntan a consecuencias mucho más dañinas, citando el comercio cuantitativo como un contribuyente clave a la venta masiva de acciones en 2008 que vio al mercado estadounidense casi reducirse a la mitad en valor.
+> #### Otros apuntan a consecuencias mucho más dañinas, citando el comercio cuantitativo como un contribuyente clave a la venta masiva de acciones en 2008 que llevó al mercado estadounidense casi reducirse a la mitad en valor.
 
 ]
 
