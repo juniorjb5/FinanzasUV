@@ -32,7 +32,7 @@ VaR(rets,p=0.95,method = "historical")
 quantile(rets,0.05)
 
 VaR(rets,p=0.99,method = "gaussian")
-CVaR(rets, p = 0.99, method = "historical")
+VaR(rets, p = 0.99, method = "historical")
 ES(rets,p=0.99,method = "gaussian")
 ES(rets, p = 0.99, method = "historical")
 

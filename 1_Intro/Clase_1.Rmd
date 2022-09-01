@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Analytics of Finance"
 subtitle: "<br/> Introduction to Analytics of Finance"
-author: "PhD. Diego F. Manotas-Duque <br/> PhD. St. Orlando Joaqui-Barandica"
+author: "PhD.(C). Orlando Joaqui-Barandica"
 institute: "Universidad del Valle - Escuela Ingeniería Industrial"
 date: "2021"
 output:
@@ -75,41 +75,6 @@ width="150px"
 
 
 
-.pull-left[
-
-<br><br>
-
-.center[
-<img style="border-radius: 50%;" src="img/avatar2.PNG"
-width="160px"
-/>
-
-[PhD. Diego F. Manotas-Duque](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque) <br>
-Universidad del Valle
-]
-
-<br>
-
-.center[
-
-*PhD. in Engineering with emphasis in Electrical Engineering*
-
-*MSc. in Management - Finance Emphasis*
-
-*Finance Specialist*
-
-*Industrial Engineer*
-
-`r icon::fa("link", animate = "spin")` [Personal Webpage](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque)
-
-]
-
-]
-
-
-
-.pull-right[
-
 
 <br><br>
 
@@ -125,9 +90,10 @@ Universidad del Valle
 <br>
 
 
+
 .center[
 
-*PhD. Student in Engineering with emphasis in Engineering Industrial* 
+*PhD.(C) in Engineering with emphasis in Engineering Industrial* 
  
 *MSc. Applied Economics*
  
@@ -140,7 +106,7 @@ Universidad del Valle
 ]
 
 
-]
+
 
 
 ---
@@ -836,12 +802,6 @@ background-color: #00081d
 
 
 .center[
-<img style="border-radius: 50%;" src="img/avatar2.PNG"
-width="100px"
-/>
-
-`r anicon::faa("envelope", animate = "passing")` diego.manotas@correounivalle.edu.co
-
 
 <br><br><br>
 
