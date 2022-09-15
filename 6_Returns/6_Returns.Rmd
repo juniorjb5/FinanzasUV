@@ -1,9 +1,9 @@
 ---
 title: "Returns"
-subtitle: "<br/> Introduction to Analytics of Finance"
-author: "PhD. Diego F. Manotas-Duque <br/> PhD. St. Orlando Joaqui-Barandica"
+subtitle: "<br/> Introducción analítica para las finanzas"
+author: "PhD.(C). Orlando Joaqui-Barandica"
 institute: "Universidad del Valle - Escuela Ingeniería Industrial"
-date: "2021"
+date: "2022"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -98,41 +98,6 @@ width="150px"
 
 
 
-.pull-left[
-
-<br><br>
-
-.center[
-<img style="border-radius: 50%;" src="img/avatar2.PNG"
-width="160px"
-/>
-
-[PhD. Diego F. Manotas-Duque](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque) <br>
-Universidad del Valle
-]
-
-<br>
-
-.center[
-
-*PhD. in Engineering with emphasis in Electrical Engineering*
-
-*MSc. in Management - Finance Emphasis*
-
-*Finance Specialist*
-
-*Industrial Engineer*
-
-`r icon::fa("link", animate = "spin")` [Personal Webpage](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque)
-
-]
-
-]
-
-
-
-.pull-right[
-
 
 <br><br>
 
@@ -141,20 +106,21 @@ Universidad del Valle
 width="160px" href="https://www.joaquibarandica.com"
 />
 
-[PhD. Student. Orlando Joaqui-Barandica](https://www.joaquibarandica.com) <br/>
+[PhD.(C) Orlando Joaqui-Barandica](https://www.joaquibarandica.com) <br/>
 Universidad del Valle
 ]
 
 <br>
 
 
+
 .center[
 
-*PhD. Student in Engineering with emphasis in Engineering Industrial* 
+*PhD.(C) Ingeniería con enfásis en Ingeniería Industrial* 
  
-*MSc. Applied Economics*
+*MSc. Economía Aplicada*
  
-*BSc. Statistic*
+*Estadístico*
 
 <br>
 
@@ -163,7 +129,7 @@ Universidad del Valle
 ]
 
 
-]
+
 
 
 ---
@@ -670,7 +636,7 @@ head(prices_monthly, 7)
 .pull-left[
 
 
-* Usaremos `Return.calculate(prices_monthly, method = "log")` para convertir a retornos y guardar un objeto llamado `called asset_returns_xts`
+* Usaremos `Return.calculate(prices_monthly, method = "log")` para convertir a retornos y guardar un objeto llamado `asset_returns_xts`
 
 
 * Note que estos están dados en logaritmo por `method = "log"`.
@@ -1209,7 +1175,7 @@ Highcharts es fantástico para visualizar series de tiempo y viene con excelente
 .pull-right[
 
 
-```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 1.5 , fig.width=1.5 }
 
 highchart(type = "stock") %>%
 hc_title(text = "Monthly Log Returns") %>%
@@ -1282,7 +1248,7 @@ hc_legend(enabled = TRUE)
 .pull-right[
 
 
-```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 1.5,fig.width=1.5 }
 
 highchart(type = "stock") %>%
 hc_title(text = "Monthly Log Returns") %>%
@@ -1358,7 +1324,7 @@ hc_title(text = paste(symbols[1], "Log Returns Distribution",
 # `r icon("broom")` Visualizing Asset Returns `xts`
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE,  fig.height = 6 }
+```{r echo=FALSE, message=FALSE, warning=FALSE,  fig.height = 1.5, fig.width=3, fig.align='center'}
 
 library(highcharter)
 
@@ -1891,7 +1857,7 @@ head(portfolio_returns_xts_rebalanced_monthly, 10)
 
 .pull-left[
 
-```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 1.5, fig.width=1.5, fig.align='center' }
 
 highchart(type = "stock") %>%
 hc_title(text = "Portfolio Monthly Returns") %>%
@@ -1914,7 +1880,7 @@ hc_exporting(enabled = TRUE)
 
 
 
-```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 1.5, fig.width=1.5, fig.align='center'}
 
 highchart(type = "stock") %>%
 hc_title(text = "Portfolio Monthly Returns") %>%
@@ -1943,7 +1909,7 @@ hc_exporting(enabled = TRUE)
 ### Visualizando...
 
 
-```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 1.5, fig.width=3, fig.align='center' }
 
 hc_portfolio <-
 hist(portfolio_returns_xts_rebalanced_monthly$returns,
@@ -1967,7 +1933,7 @@ hc_exporting(enabled = TRUE)
 
 
 
-```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 1.5, fig.width=3, fig.align='center' }
 
 hc_portfolio <-
 hist(portfolio_returns_xts_rebalanced_monthly$returns,
@@ -2570,13 +2536,13 @@ background-color: #00081d
 .center[
 <br><br>
 
-# Thanks!!!
+# Gracias!!!
 
 <br><br><br><br><br>
 
 
 
-### Questions?
+### Preguntas?
 ]
 
 
@@ -2587,18 +2553,12 @@ background-color: #00081d
 
 
 .center[
-<img style="border-radius: 50%;" src="img/avatar2.PNG"
-width="100px"
-/>
-
-`r anicon::faa("envelope", animate = "passing")` diego.manotas@correounivalle.edu.co
-
 
 <br><br><br>
 
 
 .center[
-<img style="border-radius: 50%;" src="img/avatar3.png"
+<img style="border-radius: 50%;" src="img/avatar.png"
 width="100px" href="https://www.joaquibarandica.com"
 />
 
@@ -2606,6 +2566,16 @@ width="100px" href="https://www.joaquibarandica.com"
 ]
 
 
+```{r qr, echo=FALSE, fig.align="center", out.width="50%"}
+knitr::include_graphics("img/qr-code.png")
+```
+
+
+.center[
+www.joaquibarandica.com
+]
+
+
 
 ]
 
@@ -2614,7 +2584,6 @@ width="100px" href="https://www.joaquibarandica.com"
 
 
 <br><br><br>
-
 ----
 
 *The images used to set the presentation are from [pixabay](https://pixabay.com/).*
