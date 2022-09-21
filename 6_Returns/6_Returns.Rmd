@@ -199,6 +199,279 @@ background-color: #00081d
 
 ---
 
+
+
+
+## Qué es una cartera de inversión?
+
+
+Una cartera de inversión es el conjunto de activos financieros que pertenecen a una persona o por una institución, ya sea una sociedad o un fondo.
+
+
+
+.pull-left[
+
+```{r , fig.align='center', out.width="300px"}
+
+knitr::include_graphics("img/img1.png")
+
+```
+
+
+
+ ]
+
+.pull-right[
+
+> Qué puede contener una cartera?
+
+- Acciones
+- Obligaciones
+- Materias primas
+- Fondos
+- Pólizas
+- Etc.
+
+]
+
+---
+
+
+
+
+## Asignación de activos y riesgo
+
+
+#### La cartera refleja la propensión al riesgo del inversor, así como el horizonte temporal y los objetivos de su inversión.
+
+
+.center[
+
+## Rentabilidad vs Riesgo
+
+
+
+
+<img src="https://media.giphy.com/media/xT8qBit7YomT80d0M8/giphy.gif" width="20%"/>
+
+]
+
+
+.center[
+`Diversificar correctamente la inversión permitirá que la cartera esté expuesta a menos riesgos que si se invierte en una única clase de activos o en un único título.`
+]
+
+
+---
+
+
+background-image: url("https://media.giphy.com/media/m65GQLUX8faUw/giphy.gif")
+background-size: cover
+class: inverse, center, middle
+
+# Rentabilidad vs Riesgo
+
+---
+
+
+
+## ¿Por qué crear una cartera de inversión?
+
+
+.pull-left[
+
+.center[
+
+## La creación de una cartera de inversión obedece a la necesidad del inversor de diversificar sus inversiones
+
+## con el fin de..
+
+## reducir sus riesgos de pérdida.
+
+]
+
+]
+
+
+
+.pull-right[
+
+<br>
+<br>
+
+.center[
+<img src="https://media.giphy.com/media/MRxJqmk3MNta8/giphy.gif" width="90%"/>
+]
+]
+
+
+---
+
+
+## ¿Quién gestiona la cartera de inversión?
+
+
+
+.center[
+<img src="https://media.giphy.com/media/3o6wroTygkjop77QiY/giphy.gif" width="40%"/>
+]
+
+
+.center[
+### La cartera pertenece al inversor  pero puede ser gestionada por un profesional financiero, por un banco, por un fondo o por otras instituciones financieras.
+]
+
+---
+
+## Diversificar y cubrir riesgos
+
+
+.pull-left[
+
+<br>
+
+La principal premisa de cualquier portafolio de inversión, especialmente a largo plazo, es alcanzar el equilibrio.
+
+----
+>Independientemente del **perfil inversor de cada persona**, una buena cartera debe de ser capaz de cubrir los riesgos de los activos `más agresivos` con otros más `conservadores.`
+
+----
+
+<br>
+
+.center[
+### Diversificar la inversión es la mejor fórmula para lograrlo.
+]
+
+]
+
+
+.pull-right[
+
+
+
+.center[
+
+```{r , fig.align='center', out.width="600px"}
+
+knitr::include_graphics("img/img2.png")
+
+```
+
+
+<br>
+
+
+Del mismo modo que en bolsa no es recomendable tener acciones sólo de una empresa o de un sector en concreto, tampoco hay que fiar todo el patrimonio a un tipo de inversión o familia de productos
+]
+
+
+
+
+]
+
+
+---
+
+background-image: url("https://media.giphy.com/media/5UEO7c7Ubk5pKQYwje/giphy.gif")
+background-size: cover
+class: inverse, center, middle
+
+# ¿Cuánto invertir en cada activo?
+
+
+---
+
+class: left, bottom
+background-image: url("img/back1.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back2.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back3.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back4.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back5.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back6.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back7.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back8.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back9.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back10.png")
+background-size: cover
+
+
+---
+
+class: left, bottom
+background-image: url("img/back11.png")
+background-size: cover
+
+
+---
+
+
+background-image: url("https://media.giphy.com/media/3o7abIileRivlGr8Nq/giphy.gif")
+background-size: cover
+class: inverse, center, middle
+
+# Hoy ganamos!!... mañana?
+
+
+
+---
+
+
+
 # `r icon("upload")` Packages
 
 
