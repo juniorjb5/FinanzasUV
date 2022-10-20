@@ -1,9 +1,9 @@
 ---
 title: "Risk"
 subtitle: "<br/> Introduction to Analytics of Finance"
-author: "PhD. Diego F. Manotas-Duque <br/> PhD. St. Orlando Joaqui-Barandica"
+author: "PhD.(C). Orlando Joaqui-Barandica"
 institute: "Universidad del Valle - Escuela Ingeniería Industrial"
-date: "2021"
+date: "2022"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -248,41 +248,6 @@ width="150px"
 
 
 
-.pull-left[
-
-<br><br>
-
-.center[
-<img style="border-radius: 50%;" src="img/avatar2.PNG"
-width="160px"
-/>
-
-[PhD. Diego F. Manotas-Duque](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque) <br>
-Universidad del Valle
-]
-
-<br>
-
-.center[
-
-*PhD. in Engineering with emphasis in Electrical Engineering*
-
-*MSc. in Management - Finance Emphasis*
-
-*Finance Specialist*
-
-*Industrial Engineer*
-
-`r icon::fa("link", animate = "spin")` [Personal Webpage](http://industrial.univalle.edu.co/profesores/diego-fernando-manotas-duque)
-
-]
-
-]
-
-
-
-.pull-right[
-
 
 <br><br>
 
@@ -291,20 +256,21 @@ Universidad del Valle
 width="160px" href="https://www.joaquibarandica.com"
 />
 
-[PhD. Student. Orlando Joaqui-Barandica](https://www.joaquibarandica.com) <br/>
+[PhD.(C) Orlando Joaqui-Barandica](https://www.joaquibarandica.com) <br/>
 Universidad del Valle
 ]
 
 <br>
 
 
+
 .center[
 
-*PhD. Student in Engineering with emphasis in Engineering Industrial* 
+*PhD.(C) Ingeniería con enfásis en Ingeniería Industrial* 
  
-*MSc. Applied Economics*
+*MSc. Economía Aplicada*
  
-*BSc. Statistic*
+*Estadístico*
 
 <br>
 
@@ -313,7 +279,7 @@ Universidad del Valle
 ]
 
 
-]
+
 
 
 ---
@@ -323,6 +289,8 @@ class: center, middle
 <img src="img/gifinc.jpg" width="50%"/>
 
 ### [https://gifinc.univalle.edu.co/](https://gifinc.univalle.edu.co/)
+
+
 
 
 ---
@@ -359,6 +327,10 @@ class: left, middle
 * tidyverse
 
 
+
+### `r icon("circle")` [VaR](#VaR)
+
+### `r icon("apple")` [Modelo de Markowitz](#Markowitz)
 
 ]
 
@@ -968,7 +940,7 @@ hc_legend(enabled = TRUE)
 .pull-right[
 
 
-```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 6 }
+```{r eval =TRUE, echo=FALSE, message=FALSE, warning=FALSE , fig.height = 1.5,fig.width=1.5 }
 
 port_rolling_sd_xts_hc <-
 round(port_rolling_sd_xts, 4) * 100
@@ -1483,6 +1455,769 @@ kurt_builtin = kurtosis(returns))
 
 ---
 
+name: VaR
+class: inverse, center, middle
+background-color: #00081d
+
+# `r icon("upload")`
+# VaR - Value at Risk
+
+----
+
+.right[
+.bottom[
+####  [`r icon("bell")`](#menu)
+]
+]
+
+---
+
+# `r icon("circle")` VaR
+
+
+.pull-left[
+
+<br>
+<br>
+
+El Valor en Riesgo (VaR) es una de las medidas utilizadas para evaluar el riesgo de una determinada posición o cartera de activos financieros.
+
+<br>
+
+La definición del VaR puede hacerse en términos de **rentabilidades** o en términos de **Pérdidas y Ganancias** (términos nominales).
+
+]
+
+
+.pull-right[
+
+![](https://media.giphy.com/media/d5FbeKADxF3CSf7y1L/giphy.gif)
+
+
+
+]
+
+
+
+---
+
+
+class: center, middle
+
+
+
+# El VaR responde entonces a la pregunta:
+
+
+
+### ¿Cuál es la caída o pérdida que se podría sufrir en condiciones normales de mercado en un intervalo de tiempo y con cierto nivel de probabilidad o de confianza?
+
+
+
+
+---
+
+
+class: center, middle
+
+## Es decir, indica la probabilidad (normalmente 1% o 5%) de sufrir una determinada pérdida durante un periodo de tiempo (normalmente 1 día, 1 semana o 1 mes).
+
+--
+
+<br>
+
+## Una interpretación equivalente es:
+
+--
+
+<br>
+
+### Con probabilidad $$1- \alpha$$ el propietario de dicha posición experimentará una pérdida no superior al VaR.
+
+---
+
+# `r icon("circle")` VaR
+
+.pull-left[
+
+Ejemplo:
+
+<br>
+
+> Una entidad financiera podría considerar que el **VaR** diario de una cartera operativa es de 50 millones de euros, con un nivel de confianza del 90%. 
+
+<br>
+
+----
+
+<br>
+
+> Esto quiere decir que solamente hay 1 posibilidad en 10, en condiciones normales de mercado, de que haya una pérdida superior a los 50 millones de euros.
+
+]
+
+
+.pull-right[
+
+
+![](https://media.giphy.com/media/KDtXdzo3vBx5e1HcjU/giphy.gif)
+
+
+]
+
+
+---
+
+# `r icon("circle")` VaR
+
+
+```{r Var1, echo=FALSE, fig.align="center", out.width="50%"}
+knitr::include_graphics("img/Imagen2.png")
+```
+
+.center[
+
+### Por consiguiente, el VaR no es sino un determinado percentil de la distribución de probabilidad prevista para las variaciones en el valor de mercado de la cartera en el horizonte de tiempo escogido.
+
+]
+
+---
+
+# `r icon("circle")` Cálculo del VaR
+
+
+## Tipos de VaR
+
+
+- **VaR Histórico, No Paramétrico:** se encuentra el $\alpha$ percentil de la distribución histórica de los datos.
+
+<br/>
+
+- **VaR Paramétrico:** se calcula el VaR con base en un modelo que describe su función de densidad de las pérdidas. La cual debe ser estimada.
+  - VaR suponiendo que las pérdidas siguen una distribución Gaussiana no condicional.
+
+  - VaR modelando los valores futuros de la media y la varianza condicionales.
+
+  - VaR por simulación de Montecarlo (estimando la función multivariada que describe los datos, por ejemplo mediante cópulas)
+
+
+
+---
+
+
+
+
+
+
+# `r icon("circle")` Cálculo del VaR
+
+
+## Tipos de VaR: Método No Paramétrico - Histórico
+
+
+
+.pull-left[
+
+- No precisa hacer supuestos acerca de la forma paramétrica de la distribución de rentabilidades de los factores de riesgo o de la cartera.
+
+- No está limitado a carteras en las que los pagos tienen una estructura lineal.
+
+- El método histórico debe utilizarse solo para el cálculo del VaR a un horizonte de muy pocos días.
+
+
+]
+
+
+.pull-right[
+
+$$VaR_{(1-\alpha)} = q_{(1-\alpha)(R)}  \nonumber$$
+
+]
+
+
+
+---
+
+
+
+# `r icon("circle")` Cálculo del VaR
+
+
+## Tipos de VaR: Método Paramétrico - Distribución Gaussiana
+
+
+.pull-left[
+
+- Suponemos que la distribución de las rentabilidades de los factores sigue una distribución Normal multivariante y la cartera es función lineal de los factores.
+
+- Su ventaja es que es tratable analíticamente, pero solo se puede generalizar a una pocas formas paramétricas, como la Normal, la t-Student, o mixturas de Normales o de t-Student.
+
+- La regla de la raiz cuadrada en la extrapolación de la varianza no es válida.
+
+
+]
+
+
+.pull-right[
+
+
+.center[
+Como $\alpha$ es un valor reducido: 5%, 1% o 0.01%, entonces $R^*$ será una rentabilidad negativa, y el VaR se proporciona cambiando el signo.
+]
+
+
+$$VaR = -R^{\*} \Rightarrow \alpha = P(R<R^{\*}) = \Phi\left( \frac{R^{\*}-\mu_R}{\sigma_R} \right) \nonumber$$
+
+$$VaR_{(1-\alpha)} = \Phi^{-1}(1-\alpha) \sigma_R - \mu_R  \nonumber$$
+
+
+
+
+]
+
+---
+
+
+
+# `r icon("circle")` Cálculo del VaR
+
+
+## Tipos de VaR: Método de normalidad estático
+
+
+$$VaR_{(1-\alpha)} = \Phi^{-1}(1-\alpha) \sigma_R - \mu_R  \nonumber$$
+
+
+## Tipos de VaR: Método de normalidad condicional
+
+
+$$VaR_{(1-\alpha),t+1} = \Phi^{-1}(1-\alpha) \sigma_{R,t+1} - \mu_{R,t+1}  \nonumber$$
+
+
+
+- Estimación de $\mu_{t+1}$: Modelos ARIMA de series de tiempo
+- Estimación de $\sigma_{t+1}$: Modelos de varianza condicional:
+  - Modelos GARCH: como un ARMA sobre la varianza con algunas restricciones.
+  - Modelos de Volatilidad Estocástica: una versión más general de los GARCH.
+
+
+
+
+
+---
+
+
+# `r icon("circle")` Cálculo del VaR
+
+
+## Tipos de VaR: Método de simulación MonteCarlo - estático
+
+
+$$VaR_{(1-\alpha)} = \sigma_R(-q_{(1-\alpha)}(Z))  - \mu_R, \quad \quad Z\sim N(0,1)  \nonumber$$
+
+
+## Tipos de VaR: Método de simulación MonteCarlo - dinámico
+
+
+$$VaR_{(1-\alpha)} = \sigma_{R,t+1}(-q_{(1-\alpha)}(Z))  - \mu_{R,t+1}, \quad \quad Z\sim N(0,1)  \nonumber$$
+
+---
+
+# `r icon("circle")` Limitaciones
+
+
+.pull-left[
+
+Como se puede observar existen diversas metodologías, con diferentes niveles de precisión, para estimar el Valor en Riesgo. No obstante, todas estas metodologías presentan limitaciones generales, que caracterizan la técnica del VaR y que por ende son imposibles de evitar sin recurrir a otras herramientas.
+
+
+----
+
+> - Dice muy poco sobre los casos en las colas (pérdidas extremas).
+> - Puede crear estructuras perversas de incentivos (porque no se conoce la magnitud de las pérdidas que exceden las colas).
+
+----
+
+]
+
+.pull-right[
+
+![](https://media.giphy.com/media/giC1lIEz7iOIk5vp3U/giphy.gif)
+
+]
+
+
+---
+
+# `r icon("circle")` Expected Shortfall (CVaR)
+
+
+.pull-left[
+
+Mientras que el **VaR estima lo máximo que se puede esperar perder** si un evento de pérdidas extremas no ocurre, es decir, la peor pérdida esperada en caso de una relativa regularidad financiera, el **ES (Expected Shortfall) indica cuánto se espera perder si un evento extremo efectivamente ocurre** (más allá del nivel de confianza del VaR, en las colas de la distribución).
+
+
+----
+
+
+$$ES = E[R / ( R < VaR )] \nonumber$$
+
+----
+
+]
+
+.pull-right[
+
+
+```{r Var2, echo=FALSE, fig.align="center", out.width="75%"}
+knitr::include_graphics("img/Imagen3.PNG")
+```
+
+
+]
+
+
+---
+
+# `r icon("circle")` Código en R
+
+
+.scroll-output[
+
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+library(quantmod)
+library(PerformanceAnalytics)
+
+
+#########Fecha inicial de descarga de datos
+maxDate = "2000-01-01"
+
+#Serie a descargar
+tick<-"AMZN"
+
+#Obtener la serie de precios desde Yahoo Finance
+prices <- Ad(getSymbols(tick, auto.assign = FALSE, from=maxDate))
+plot(prices)
+View(prices)
+
+
+#Calcular retornos
+rets <- dailyReturn(prices)
+plot(rets)
+hist(rets)
+
+
+library(tseries)
+jarque.bera.test(rets)
+
+
+#Calcular VaR y CVaR
+VaR(rets,p=0.95,method = "historical")
+quantile(rets,0.05)
+
+VaR(rets,p=0.99,method = "gaussian")
+VaR(rets, p = 0.99, method = "historical")
+ES(rets,p=0.99,method = "gaussian")
+ES(rets, p = 0.99, method = "historical")
+
+
+
+#Series que conforman el portafolio
+tickers<- c("MSFT", "AAPL", "AMZN")
+
+#Definir pesos del portafolio
+weights<-c(0.5,0.1,0.4)
+
+#Obtener series de precios del portafolio
+getSymbols(tickers, from=maxDate)
+View(AAPL)
+
+#Crear el portafolio
+Port.prices <- na.omit(merge(Ad(MSFT),Ad(AAPL), Ad(AMZN)))
+colnames(Port.prices)<-tickers
+View(Port.prices)
+plot(Port.prices)
+
+
+#Retornos del portafolio
+Port.returns <- ROC(Port.prices,type="discrete")[-1]
+colnames(Port.returns)<-tickers
+View(Port.returns)
+plot(Port.returns)
+
+VaR(Port.returns,p=0.95, weights = weights, portfolio_method = "component", method = "historical")
+ES(Port.returns,p=0.95, weights = weights, portfolio_method = "component", method = "historical")
+
+
+#Calcular VaR Individual
+VaR.Hist<- VaR(Port.returns,p=0.95, weights = NULL, portfolio_method = "single", method = "historical")
+VaR.Gaus<- VaR(Port.returns,p=0.95, weights = NULL, portfolio_method = "single", method = "gaussian")
+VaR.Mod<- VaR(Port.returns,p=0.95, weights = NULL, portfolio_method = "single", method = "modified")
+
+#Guardar datos
+All.VaR<-data.frame(rbind(VaR.Hist,VaR.Gaus,VaR.Mod))
+rownames(All.VaR)<-c("Hist","Gaus","Mod")
+
+All.VaR
+
+#Calcular VaR Portfolio
+Port.VaR.Hist<- VaR(Port.returns,p=0.95, weights = weights, portfolio_method = "component", method = "historical")$hVaR
+Port.VaR.Gaus<- VaR(Port.returns,p=0.95, weights = weights, portfolio_method = "component", method = "gaussian")$VaR
+Port.VaR.Mod<- VaR(Port.returns,p=0.95, weights = weights, portfolio_method = "component", method = "modified")$MVaR
+
+
+All.VaR$Portafolio<-c(Port.VaR.Hist,Port.VaR.Gaus,Port.VaR.Mod)
+All.VaR<-abs(All.VaR)
+All.VaR$Type<-c("Hist","Gaus","Mod")
+
+All.VaR
+
+#Base para gráfico
+library(reshape2)
+library(ggplot2)
+plotVaR<-melt(All.VaR,variable.name = "Ticker", value.name = "VaR")
+
+
+g1<-ggplot(plotVaR,aes(x=Type,y=VaR, fill=Ticker))+
+  geom_bar(stat="identity", position = "dodge") 
+
+g1
+
+
+  
+```
+
+]
+
+---
+
+
+name: Markowitz
+class: inverse, center, middle
+background-color: #00081d
+
+# `r icon("upload")`
+# Modelo de Markowitz
+
+----
+
+.right[
+.bottom[
+####  [`r icon("bell")`](#menu)
+]
+]
+
+
+
+---
+
+# `r icon("apple")` Modelo de Markowitz
+
+<br/>
+
+.center[
+### Modelo pionero, es el primero que incorpora un trade off entre la rentabilidad y el riesgo.
+]
+
+<br/>
+
+.pull-left[
+
+<br/>
+
+**Supuestos:**
+
+
+- Rendimientos se distribuyen de manera normal.
+- Inversionistas son racionales y aversos a riesgo.
+- Información simétrica.
+- No hay costos de transacción.
+- No hay apalancamiento.
+
+]
+
+
+.pull-right[
+
+.center[
+
+## Rentabilidad vs Riesgo
+
+
+
+```{r Marko1, echo=FALSE, fig.align="center", out.width="40%"}
+knitr::include_graphics("https://media.giphy.com/media/JqKOU2VAUx9bt9K4PK/giphy.gif")
+```
+
+]
+
+]
+
+
+---
+
+# `r icon("apple")` Modelo de Markowitz
+
+
+
+.pull-left[
+
+## Rentabilidad
+
+$$E(R_{(P)})$$
+
+## Riesgo
+
+$$\sigma^2_{R_{(P)}} = w_{R_{(A)}} \sigma^2_{R_{(A)}} + w_{R_{(B)}} \sigma^2_{R_{(B)}} + 2w_Aw_BCov_{R_{(A)}R_{(B)}}$$
+
+$$Cov_{R_{(A)}R_{(B)}} = \rho_{R_{(A)}R_{(B)}} \sigma_{R_{(A)}} \sigma_{R_{(B)}}$$
+
+
+$$w_A + w_B = 1$$
+
+]
+
+
+
+.pull-right[
+
+<br/>
+<br/>
+<br/>
+
+```{r Marko, echo=FALSE, fig.align="center", out.width="120%"}
+knitr::include_graphics("img/Imagen4.PNG")
+```
+
+
+]
+
+---
+
+# `r icon("apple")` Modelo de Markowitz
+
+
+- Curva XY: Frontera de varianza mínima.
+- Curva OX: Frontera eficiente.
+- Punto O: Punto de varianza mínima global
+
+
+```{r Marko2, echo=FALSE, fig.align="center", out.width="50%"}
+knitr::include_graphics("img/Imagen5.PNG")
+```
+
+
+---
+
+# `r icon("apple")` Modelo de Markowitz
+
+.pull-left[
+
+$$Max (R_p) = \sum_{i=1}^n w_i R_i$$
+
+sujeto a:
+
+- Restricción paramétrica:
+
+La suma total de los pesos de cada valor de la cartera multiplicados por la covarianza de la misma, debe ser igual a la Varianza estimada de la cartera. Para cada valor de $V*$ tendremos una composición de la cartera diferente.
+
+$$\sigma^2_p = \sum_{i=1}^n \sum_{j=1}^n w_i w_j \sigma_{i,j} = V^*$$
+
+
+
+]
+
+
+
+.pull-right[
+
+
+- Restricción presupuestaria:
+
+La suma total de los pesos de cada valor de la cartera no puede sumar más de 1.
+
+$$\sum_{i=1}^n w_i = 1$$
+- No negatividad:
+
+$$w_i \geq 0$$
+
+]
+
+
+---
+
+# `r icon("apple")` Modelo de Markowitz
+
+.pull-left[
+
+$$Min \quad \sigma^2 (R_p) = \sum_{i=1}^n \sum_{j=1}^n w_i w_j \sigma_{i,j}$$
+
+sujeto a:
+
+- Restricción paramétrica:
+
+
+
+$$E (R_p) = \sum_{i=1}^n w_i E(R_i)$$
+
+
+
+]
+
+
+
+.pull-right[
+
+
+- Restricción presupuestaria:
+
+$$\sum_{i=1}^n w_i = 1$$
+- No negatividad:
+
+$$w_i \geq 0$$
+
+]
+
+
+---
+
+
+# `r icon("circle")` Código en R
+
+
+.scroll-output[
+
+```{r eval =FALSE, echo=TRUE, message=FALSE, warning=FALSE , fig.height = 6 }
+
+#Librerías
+
+library("quantmod")
+library("timeSeries")
+library("fPortfolio")
+library("caTools")
+library("dplyr")
+library("PerformanceAnalytics")
+library("ggplot2")
+
+
+
+###########################################################
+###################### PASOS PREVIOS ######################
+###########################################################
+
+#Vector de TICKERS
+
+tickers<-c("TSLA","NEM","NFLX", "BAC","AMZN","JNJ")
+
+#Extrayendo la data
+
+PrecPort<- NULL
+for (Ticker in tickers)
+PrecPort<-cbind(PrecPort, getSymbols(Ticker, from= '2019-01-01', auto.assign=FALSE)[,4])
+PrecPort 
+
+#Renombrando los encabezados de las columnas
+
+colnames(PrecPort)<-tickers
+
+#Calculando los retornos
+
+RetPort <- na.omit(ROC(PrecPort, type="discrete"))
+RetPort
+
+#Convirtiendo los retornos en series de tiempo
+RetPort <- as.timeSeries(RetPort)
+
+RetPort
+
+###############################################################################
+###################### FRONTERA Y PORTAFOLIOS EFICIENTES ######################
+###############################################################################
+
+#Calculando la frontera eficiente
+
+fronteraEff <- portfolioFrontier(RetPort, constraints= "LongOnly",)
+
+#Graficando la frontera
+#En el gráfico, se pueden incorporar los siguientes elementos:
+# 1: Frontera Eficiente
+# 2: El portafolio con la mínima varianza global
+# 3: Línea tangente al portafolio
+# 4: Riesgo y retorno de cada activo
+# 5: Portafolio con activos del mismo peso
+# 6: Fronteras de dos activos
+# 7: Portafolios de Monte Carlo
+# 8: Ratio de Sharpe
+
+plot(fronteraEff,c(1,2,3))
+
+plot(fronteraEff)
+
+
+#Riesgos y Retornos de la frontera
+
+Riesgo_Retorno <- frontierPoints(fronteraEff)
+
+#Matrices de correlación y covarianza
+
+MatrizCorr<-cor(RetPort)
+MatrizCov<-cov(RetPort)
+
+MatrizCov
+MatrizCorr
+
+#Pesos en las fronteras eficientes
+fronteraPesos<-getWeights(fronteraEff)
+colnames(fronteraPesos)<-tickers
+
+barplot(t(fronteraPesos), main="Pesos de los activos en la Frontera Eficiente",col=cm.colors(ncol(fronteraPesos)+2), legend=colnames(fronteraPesos))
+
+
+#Puntos interesantes:
+
+  #Varianza mínima global
+  VMG<-minvariancePortfolio(RetPort, spec=portfolioSpec(), constraints="LongOnly")
+  VMG
+  
+    #Reporte de los pesos asignados:
+    VMG_Pesos<-getWeights(VMG)
+    DF_VMG_Pesos<-data.frame(VMG_Pesos)
+    acciones<-colnames(fronteraPesos)
+    
+    ggplot(data=DF_VMG_Pesos,aes(x=acciones,y=VMG_Pesos,fill=acciones))+
+      geom_bar(stat="identity",position=position_dodge(),colour="black")+
+      geom_text(aes(label=sprintf("%.02f %%",VMG_Pesos*100)),
+                position=position_dodge(width=0.9),vjust=-0.25,check_overlap=TRUE)+
+      ggtitle("Pesos de las acciones del portafolio de varianza minima global")+
+      theme(plot.title = element_text(hjust=0.5))+
+      labs(x="Acciones",y="Pesos (%)")
+      
+  #Punto de la Línea de Mercado de Capitales tangente a la Frontera Eficiente  
+  LMC<-tangencyPortfolio(RetPort, spec=portfolioSpec(), constraints="LongOnly")
+  LMC
+  
+    #Reporte de los pesos asignados:
+    LMC_Pesos<-getWeights(LMC)
+    DF_LMC_Pesos<-data.frame(LMC_Pesos)
+    acciones<-colnames(fronteraPesos)
+    ggplot(data=DF_LMC_Pesos,aes(x=acciones,y=LMC_Pesos,fill=acciones))+
+      geom_bar(stat="identity",position=position_dodge(),colour="black")+
+      geom_text(aes(label=sprintf("%.02f %%",LMC_Pesos*100)),
+                position=position_dodge(width=0.9),vjust=-0.25,check_overlap=TRUE)+
+      ggtitle("Pesos de las acciones del portafolio de mercado")+
+      theme(plot.title = element_text(hjust=0.5))+
+      labs(x="Acciones",y="Pesos (%)")
+
+  
+```
+
+]
+
+
+---
+
+
 
 
 class: inverse, center, middle
@@ -1496,13 +2231,13 @@ background-color: #00081d
 .center[
 <br><br>
 
-# Thanks!!!
+# Gracias!!!
 
 <br><br><br><br><br>
 
 
 
-### Questions?
+### Preguntas?
 ]
 
 
@@ -1513,18 +2248,12 @@ background-color: #00081d
 
 
 .center[
-<img style="border-radius: 50%;" src="img/avatar2.PNG"
-width="100px"
-/>
-
-`r anicon::faa("envelope", animate = "passing")` diego.manotas@correounivalle.edu.co
-
 
 <br><br><br>
 
 
 .center[
-<img style="border-radius: 50%;" src="img/avatar3.png"
+<img style="border-radius: 50%;" src="img/avatar.png"
 width="100px" href="https://www.joaquibarandica.com"
 />
 
@@ -1532,6 +2261,16 @@ width="100px" href="https://www.joaquibarandica.com"
 ]
 
 
+```{r qr, echo=FALSE, fig.align="center", out.width="50%"}
+knitr::include_graphics("img/qr-code.png")
+```
+
+
+.center[
+www.joaquibarandica.com
+]
+
+
 
 ]
 
@@ -1540,10 +2279,9 @@ width="100px" href="https://www.joaquibarandica.com"
 
 
 <br><br><br>
-
 ----
 
-*The images used to set the presentation are from [pixabay](https://pixabay.com/).*
+
 
 
 

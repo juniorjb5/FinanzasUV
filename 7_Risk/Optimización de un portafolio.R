@@ -1,8 +1,5 @@
-# Introducción a R para Finanzas Cuantitativas
-# Optimización de un portafolio
-# Autor: Jhonatan Ever Medina Muriel
+#LibrerÃ­as
 
-#Librerías requeridas
 library("quantmod")
 library("timeSeries")
 library("fPortfolio")
@@ -36,6 +33,7 @@ colnames(PrecPort)<-tickers
 
 RetPort <- na.omit(ROC(PrecPort, type="discrete"))
 RetPort
+
 #Convirtiendo los retornos en series de tiempo
 RetPort <- as.timeSeries(RetPort)
 
@@ -47,13 +45,13 @@ RetPort
 
 #Calculando la frontera eficiente
 
-fronteraEff <- portfolioFrontier(RetPort, constraints= "LongOnly")
+fronteraEff <- portfolioFrontier(RetPort, constraints= "LongOnly",)
 
 #Graficando la frontera
-#En el gráfico, se pueden incorporar los siguientes elementos:
+#En el grÃ¡fico, se pueden incorporar los siguientes elementos:
 # 1: Frontera Eficiente
-# 2: El portafolio con la mínima varianza global
-# 3: Línea tangente al portafolio
+# 2: El portafolio con la mÃ­nima varianza global
+# 3: LÃ­nea tangente al portafolio
 # 4: Riesgo y retorno de cada activo
 # 5: Portafolio con activos del mismo peso
 # 6: Fronteras de dos activos
@@ -62,15 +60,17 @@ fronteraEff <- portfolioFrontier(RetPort, constraints= "LongOnly")
 
 plot(fronteraEff,c(1,2,3))
 
+plot(fronteraEff)
+
 
 #Riesgos y Retornos de la frontera
 
 Riesgo_Retorno <- frontierPoints(fronteraEff)
 
-#Matrices de correlación y covarianza
+#Matrices de correlaciÃ³n y covarianza
 
 MatrizCorr<-cor(RetPort)
-MatrizCov<-cor(RetPort)
+MatrizCov<-cov(RetPort)
 
 MatrizCov
 MatrizCorr
@@ -84,7 +84,7 @@ barplot(t(fronteraPesos), main="Pesos de los activos en la Frontera Eficiente",c
 
 #Puntos interesantes:
 
-  #Varianza mínima global
+  #Varianza mÃ­nima global
   VMG<-minvariancePortfolio(RetPort, spec=portfolioSpec(), constraints="LongOnly")
   VMG
   
@@ -92,15 +92,16 @@ barplot(t(fronteraPesos), main="Pesos de los activos en la Frontera Eficiente",c
     VMG_Pesos<-getWeights(VMG)
     DF_VMG_Pesos<-data.frame(VMG_Pesos)
     acciones<-colnames(fronteraPesos)
+    
     ggplot(data=DF_VMG_Pesos,aes(x=acciones,y=VMG_Pesos,fill=acciones))+
       geom_bar(stat="identity",position=position_dodge(),colour="black")+
       geom_text(aes(label=sprintf("%.02f %%",VMG_Pesos*100)),
                 position=position_dodge(width=0.9),vjust=-0.25,check_overlap=TRUE)+
-      ggtitle("Pesos de las acciones del portafolio de varianza mínima global")+
+      ggtitle("Pesos de las acciones del portafolio de varianza minima global")+
       theme(plot.title = element_text(hjust=0.5))+
       labs(x="Acciones",y="Pesos (%)")
       
-  #Punto de la Línea de Mercado de Capitales tangente a la Frontera Eficiente  
+  #Punto de la LÃ­nea de Mercado de Capitales tangente a la Frontera Eficiente  
   LMC<-tangencyPortfolio(RetPort, spec=portfolioSpec(), constraints="LongOnly")
   LMC
   
@@ -115,3 +116,4 @@ barplot(t(fronteraPesos), main="Pesos de los activos en la Frontera Eficiente",c
       ggtitle("Pesos de las acciones del portafolio de mercado")+
       theme(plot.title = element_text(hjust=0.5))+
       labs(x="Acciones",y="Pesos (%)")
+    
