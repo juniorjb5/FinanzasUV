@@ -1,9 +1,9 @@
 ---
 title: "Introducción: Analítica para las finanzas"
 subtitle: "<br/> Introducción analítica para las finanzas"
-author: "PhD.(C). Orlando Joaqui-Barandica"
+author: "Orlando Joaqui-Barandica, PhD"
 institute: "Universidad del Valle - Escuela Ingeniería Industrial"
-date: "2022"
+date: "2024"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -83,7 +83,7 @@ width="150px"
 width="160px" href="https://www.joaquibarandica.com"
 />
 
-[PhD.(C) Orlando Joaqui-Barandica](https://www.joaquibarandica.com) <br/>
+[Orlando Joaqui-Barandica, PhD](https://www.joaquibarandica.com) <br/>
 Universidad del Valle
 ]
 
@@ -93,7 +93,7 @@ Universidad del Valle
 
 .center[
 
-*PhD.(C) Ingeniería con enfásis en Ingeniería Industrial* 
+*PhD Ingeniería con enfásis en Ingeniería Industrial* 
  
 *MSc. Economía Aplicada*
  
@@ -124,19 +124,9 @@ class: center, middle
 # Motivación...  🥳 
 
 
----
-
-
-<iframe width="1530" height="610" src="https://www.youtube.com/embed/z7-eYt3m6-M" frameborder="0" allowfullscreen></iframe>
-
 
 ---
 
-class: center, middle
-
-# Así que...
-
----
 
 background-color: #000000
 
